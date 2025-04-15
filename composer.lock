@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ef3123b6dc0862be3a19ce6ead8603d4",
+    "content-hash": "db28a7dfa49a2992337a7d6e8c8ac205",
     "packages": [
         {
             "name": "composer/semver",
@@ -1508,16 +1508,16 @@
         },
         {
             "name": "phpdocumentor/reflection-docblock",
-            "version": "5.6.1",
+            "version": "5.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/ReflectionDocBlock.git",
-                "reference": "e5e784149a09bd69d9a5e3b01c5cbd2e2bd653d8"
+                "reference": "92dde6a5919e34835c506ac8c523ef095a95ed62"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/e5e784149a09bd69d9a5e3b01c5cbd2e2bd653d8",
-                "reference": "e5e784149a09bd69d9a5e3b01c5cbd2e2bd653d8",
+                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/92dde6a5919e34835c506ac8c523ef095a95ed62",
+                "reference": "92dde6a5919e34835c506ac8c523ef095a95ed62",
                 "shasum": ""
             },
             "require": {
@@ -1566,9 +1566,9 @@
             "description": "With this component, a library can provide support for annotations via DocBlocks or otherwise retrieve information that is embedded in a DocBlock.",
             "support": {
                 "issues": "https://github.com/phpDocumentor/ReflectionDocBlock/issues",
-                "source": "https://github.com/phpDocumentor/ReflectionDocBlock/tree/5.6.1"
+                "source": "https://github.com/phpDocumentor/ReflectionDocBlock/tree/5.6.2"
             },
-            "time": "2024-12-07T09:39:29+00:00"
+            "time": "2025-04-13T19:20:35+00:00"
         },
         {
             "name": "phpdocumentor/type-resolver",
@@ -1980,6 +1980,60 @@
                 "source": "https://github.com/php-fig/log/tree/3.0.2"
             },
             "time": "2024-09-11T13:17:53+00:00"
+        },
+        {
+            "name": "siburuxue/doctrine-helper",
+            "version": "v1.0.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/siburuxue/doctrine-helper.git",
+                "reference": "197f87eafa915b9810c332b1af52b1365d6b97d4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/siburuxue/doctrine-helper/zipball/197f87eafa915b9810c332b1af52b1365d6b97d4",
+                "reference": "197f87eafa915b9810c332b1af52b1365d6b97d4",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/dbal": "^3|^4",
+                "php": ">=8.2",
+                "symfony/framework-bundle": "^7.0",
+                "symfony/http-client": "^7.0"
+            },
+            "require-dev": {
+                "symfony/console": "^7.0",
+                "symfony/http-kernel": "^7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Doctrine\\Helper\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "zhang peng",
+                    "email": "siburuxue@gmail.com",
+                    "homepage": "https://github.com/siburuxue"
+                }
+            ],
+            "description": "instead of `php bin/console doctrine:mapping:import`",
+            "keywords": [
+                "create entity from the existing database.",
+                "database",
+                "doctrine",
+                "doctrine-helper"
+            ],
+            "support": {
+                "issues": "https://github.com/siburuxue/doctrine-helper/issues",
+                "source": "https://github.com/siburuxue/doctrine-helper/tree/v1.0.6"
+            },
+            "time": "2025-02-28T15:39:19+00:00"
         },
         {
             "name": "symfony/asset",

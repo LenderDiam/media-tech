@@ -14,7 +14,7 @@
         "doctrine/orm": "^3.3",
         "phpdocumentor/reflection-docblock": "^5.6.2",
         "phpstan/phpdoc-parser": "^2.1",
-        "siburuxue/doctrine-helper": "^1.0.6",
+        "siburuxue/doctrine-helper": "^1.0",
         "symfony/asset": "7.2.*",
         "symfony/asset-mapper": "7.2.*",
         "symfony/console": "7.2.*",
@@ -94,7 +94,7 @@
     },
     "extra": {
         "symfony": {
-            "allow-contrib": false,
+            "allow-contrib": true,
             "require": "7.2.*"
         }
     },

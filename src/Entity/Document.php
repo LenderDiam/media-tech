@@ -9,6 +9,14 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: DocumentRepository::class)]
+#[ORM\InheritanceType('JOINED')]
+#[ORM\DiscriminatorColumn(name: 'type', type: 'string')]
+#[ORM\DiscriminatorMap([
+    'book' => Book::class,
+    'audio' => Audio::class,
+    'video' => Video::class,
+    'periodical' => Periodical::class,
+])]
 class Document
 {
     #[ORM\Id]

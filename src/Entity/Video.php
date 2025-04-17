@@ -10,24 +10,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 
 #[ORM\Entity(repositoryClass: VideoRepository::class)]
-class Video
+class Video extends Document
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
-
     #[ORM\Column(type: Types::TIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $duration = null;
 
     #[Assert\NotBlank()]
     #[ORM\Column(enumType: VideoFormat::class, options: ['default' => VideoFormat::Undefined->value])]
     private ?VideoFormat $format = VideoFormat::Undefined;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getDuration(): ?\DateTimeInterface
     {

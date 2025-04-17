@@ -1,0 +1,10 @@
+<?php
+
+namespace App\Enum;
+
+enum BasketState: int
+{
+    case Pending = 1;
+    case Validated = 2;
+    case Cancelled = 3;
+}

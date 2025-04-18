@@ -29,11 +29,11 @@ class Transaction
      * @var Collection<int, Subscription>
      */
     #[ORM\ManyToMany(targetEntity: Subscription::class, inversedBy: 'transactions')]
-    private Collection $suscriptions;
+    private Collection $subscriptions;
 
     public function __construct()
     {
-        $this->suscriptions = new ArrayCollection();
+        $this->subscriptions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -80,23 +80,23 @@ class Transaction
     /**
      * @return Collection<int, Subscription>
      */
-    public function getSuscriptions(): Collection
+    public function getSubscriptions(): Collection
     {
-        return $this->suscriptions;
+        return $this->subscriptions;
     }
 
-    public function addSuscription(Subscription $suscription): static
+    public function addSubscription(Subscription $subscription): static
     {
-        if (!$this->suscriptions->contains($suscription)) {
-            $this->suscriptions->add($suscription);
+        if (!$this->subscriptions->contains($subscription)) {
+            $this->subscriptions->add($subscription);
         }
 
         return $this;
     }
 
-    public function removeSuscription(Subscription $suscription): static
+    public function removeSubscription(Subscription $subscription): static
     {
-        $this->suscriptions->removeElement($suscription);
+        $this->subscriptions->removeElement($subscription);
 
         return $this;
     }

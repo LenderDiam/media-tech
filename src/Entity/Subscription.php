@@ -32,7 +32,7 @@ class Subscription
     /**
      * @var Collection<int, Transaction>
      */
-    #[ORM\ManyToMany(targetEntity: Transaction::class, mappedBy: 'suscriptions')]
+    #[ORM\ManyToMany(targetEntity: Transaction::class, mappedBy: 'subscriptions')]
     private Collection $transactions;
 
     public function __construct()
@@ -93,7 +93,7 @@ class Subscription
     {
         if (!$this->transactions->contains($transaction)) {
             $this->transactions->add($transaction);
-            $transaction->addSuscription($this);
+            $transaction->addSubscription($this);
         }
 
         return $this;
@@ -102,7 +102,7 @@ class Subscription
     public function removeTransaction(Transaction $transaction): static
     {
         if ($this->transactions->removeElement($transaction)) {
-            $transaction->removeSuscription($this);
+            $transaction->removeSubscription($this);
         }
 
         return $this;

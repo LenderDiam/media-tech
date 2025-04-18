@@ -13,11 +13,6 @@ class Book extends Document
 
     #[ORM\Column(nullable: true)]
     private ?int $pages = null;
-
-    public function __construct()
-    {
-    }
-
     public function getIsbn(): ?string
     {
         return $this->isbn;

@@ -1,0 +1,97 @@
+{% import "macros/dropdown.html.twig" as dropdown %}
+{% import "macros/navigation.html.twig" as navigation %}
+
+<header class="sticky-top">
+  <nav class="navbar navbar-expand-lg bg-body border-bottom shadow-sm" id="main-navbar">
+    <div class="container">
+      {# ----- Logo Médiathèque ----- #}
+      <a class="navbar-brand me-5" href="#" aria-label="Accueil">
+        <img id="main-navbar-logo" src="{{ asset('images/navbar/logo.png') }}" alt="Logo Médiathèque" height="64" />
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        {# ----- Navigation principale ----- #}
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          {{ navigation.nav_item(
+            label: 'Catalogue',
+            path: '#',
+            icon: '',
+            check_path: 'app_catalogue',
+          ) }}
+
+          {{ navigation.nav_item(
+            label: 'Abonnement',
+            path: '#',
+            icon: '',
+            check_path: 'app_abonnement',
+          ) }}
+
+          {{ navigation.nav_item(
+            label: 'Services numériques',
+            path: '#',
+            icon: '',
+            check_path: 'app_numerique',
+          ) }}
+
+          {{ navigation.nav_item(
+            label: 'Infos pratiques',
+            path: '#',
+            icon: '',
+            check_path: 'app_infos',
+          ) }}
+        </ul>
+
+        {# ----- Espace utilisateur ----- #}
+        {% if is_granted('ROLE_USER') %}
+          <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Mon compte
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end">
+                {{ dropdown.header('Espace personnel') }}
+
+                {{ dropdown.item(
+                  label: 'Mon Panier',
+                  path: '#',
+                ) }}
+
+                {{ dropdown.item(
+                  label: 'Mon profil',
+                  path: '#',
+                ) }}
+
+                {{ dropdown.item(
+                  label: 'Paramètres',
+                  path: '#',
+                ) }}
+
+                <li><hr class="dropdown-divider" /></li>
+
+                {{ dropdown.header('Actions') }}
+
+                {{ dropdown.item(
+                  label: 'Déconnexion',
+                  path: path('app_logout'),
+                  destructive: true,
+                ) }}
+              </ul>
+            </li>
+          </ul>
+        {% else %}
+          <ul class="navbar-nav mb-2 mb-lg-0 list-unstyled">
+            <li class="nav-item me-1">
+              <a href="{{ path('app_login')}}" class="btn btn-warning mb-1 mb-lg-0">Connexion</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="btn btn-primary">Nous contacter</a>
+            </li>
+          </ul>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+</header>

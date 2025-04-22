@@ -65,7 +65,7 @@ class AppFixtures extends Fixture
 
             $sub
                 ->setName($faker->word)
-                ->setPrice($faker->randomFloat(2, 5, 99))
+                ->setPrice($faker->randomFloat(0, 5, 30))
                 ->setPeriodicity($faker->randomElement([SubscriptionPeriodicity::Monthly, SubscriptionPeriodicity::Yearly]))
             ;
 
@@ -222,7 +222,7 @@ class AppFixtures extends Fixture
             $loan
                 ->setStartAt(DateTimeImmutable::createFromMutable($faker->dateTimeBetween('-10 days', 'now')))
                 ->setWithdrawalAt($faker->optional()->dateTimeBetween('-8 days', 'now') ? DateTimeImmutable::createFromMutable($faker->dateTimeBetween('-8 days', 'now')) : null)
-                ->setBackAt($faker->optional()->dateTimeBetween('-8 days', 'now') ? DateTimeImmutable::createFromMutable($faker->dateTimeBetween('-7 days', 'now')) : null)
+                ->setBackAt($faker->optional()->dateTimeBetween('-7 days', 'now') ? DateTimeImmutable::createFromMutable($faker->dateTimeBetween('-7 days', 'now')) : null)
                 ->setUser($user)
             ;
 

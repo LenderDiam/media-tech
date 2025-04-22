@@ -3,12 +3,12 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
-<div class="container mt-5">
+<div class="container m-5">
     <div class="row justify-content-center">
         <div class="col-md-4">
             <div class="card shadow rounded-3">
                 <div class="card-body">
-                    <h1 class="text-center mb-4">Connexion</h1>
+                    <h1 class="text-center mb-4 h3">Connexion</h1>
 
                     {% if app.user %}
                         <div class="alert alert-info">
@@ -29,14 +29,6 @@
                         </div>
 
                         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-
-                        {# Uncomment to enable "remember me" #}
-                        {# 
-                        <div class="form-check mb-3">
-                            <input type="checkbox" class="form-check-input" name="_remember_me" id="_remember_me">
-                            <label class="form-check-label" for="_remember_me">Remember me</label>
-                        </div>
-                        #}
 
                         <div class="d-grid">
                             <button class="btn btn-primary btn-lg" type="submit">Se connecter</button>

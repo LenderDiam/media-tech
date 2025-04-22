@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <div class="card shadow rounded-3">
+                <div class="card-body">
+                    <h1 class="text-center mb-4">Connexion</h1>
+
+                    {% if app.user %}
+                        <div class="alert alert-info">
+                            You are logged in as {{ app.user.userIdentifier }},
+                            <a href="{{ path('app_logout') }}">Logout</a>
+                        </div>
+                    {% endif %}
+
+                    <form method="post">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Email</label>
+                            <input type="email" value="{{ last_username }}" name="_username" id="username" class="form-control" autocomplete="email" required autofocus>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Mot de passe</label>
+                            <input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" required>
+                        </div>
+
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                        {# Uncomment to enable "remember me" #}
+                        {# 
+                        <div class="form-check mb-3">
+                            <input type="checkbox" class="form-check-input" name="_remember_me" id="_remember_me">
+                            <label class="form-check-label" for="_remember_me">Remember me</label>
+                        </div>
+                        #}
+
+                        <div class="d-grid">
+                            <button class="btn btn-primary btn-lg" type="submit">Se connecter</button>
+                        </div>
+                    </form>
+
+                    {% if error %}
+                        <div class="alert alert-danger">
+                            {{ error.messageKey|trans(error.messageData, 'security') }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

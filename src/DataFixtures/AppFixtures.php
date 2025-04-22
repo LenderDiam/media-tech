@@ -43,7 +43,7 @@ class AppFixtures extends Fixture
         $faker = Factory::create('fr_FR');
 
         $users = [];
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 9; $i++) {
             $user = new User();
 
             $user
@@ -57,6 +57,19 @@ class AppFixtures extends Fixture
             $manager->persist($user);
             $users[] = $user;
         }
+
+        $admin = new User();
+
+        $admin
+            ->setFirstname('admin')
+            ->setLastname('admin')
+            ->setEmail('admin@example.com')
+            ->setPassword(password_hash('admin', PASSWORD_BCRYPT))
+            ->setRoles(['ROLE_ADMIN'])
+        ;
+
+        $manager->persist($admin);
+        $users[] = $admin;
         $manager->flush();
 
         $subscriptions = [];

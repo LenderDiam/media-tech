@@ -1,3 +1,12 @@
-body {
-    background-color: skyblue;
+html, body {
+    min-height: 100dvh;
+}
+
+body, main {
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 1 auto;
 }

@@ -80,18 +80,15 @@ class AppFixtures extends Fixture
                 $transaction = new Transaction();
 
                 $transaction
-                    ->setAmount($faker->randomFloat(2, 5, 100))
                     ->setCreatedAt(DateTimeImmutable::createFromMutable($faker->dateTimeBetween('-1 year', 'now')))
                     ->setUser($user)
+                    ->setSubscription($faker->randomElement($subscriptions))
+                    ->setAmount($transaction->getSubscription()->getPrice())
                 ;
 
                 $manager->persist($transaction);
                 $transactions[] = $transaction;
             }
-        }
-
-        foreach ($transactions as $transaction) {
-            $transaction->addSubscription($faker->randomElement($subscriptions));
         }
         $manager->flush();
 

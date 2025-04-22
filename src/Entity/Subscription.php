@@ -28,11 +28,11 @@ class Subscription
     #[Assert\NotBlank()]
     #[ORM\Column(enumType: SubscriptionPeriodicity::class, options: ['default' => SubscriptionPeriodicity::Monthly->value])]
     private ?SubscriptionPeriodicity $periodicity = SubscriptionPeriodicity::Monthly;
-    
+
     /**
      * @var Collection<int, Transaction>
      */
-    #[ORM\ManyToMany(targetEntity: Transaction::class, mappedBy: 'subscriptions')]
+    #[ORM\OneToMany(targetEntity: Transaction::class, mappedBy: 'subscription')]
     private Collection $transactions;
 
     public function __construct()
@@ -93,7 +93,7 @@ class Subscription
     {
         if (!$this->transactions->contains($transaction)) {
             $this->transactions->add($transaction);
-            $transaction->addSubscription($this);
+            $transaction->setSubscription($this);
         }
 
         return $this;
@@ -102,7 +102,10 @@ class Subscription
     public function removeTransaction(Transaction $transaction): static
     {
         if ($this->transactions->removeElement($transaction)) {
-            $transaction->removeSubscription($this);
+            // set the owning side to null (unless already changed)
+            if ($transaction->getSubscription() === $this) {
+                $transaction->setSubscription(null);
+            }
         }
 
         return $this;

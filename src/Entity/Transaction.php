@@ -25,15 +25,11 @@ class Transaction
     #[ORM\ManyToOne(inversedBy: 'transactions')]
     private ?User $user = null;
 
-    /**
-     * @var Collection<int, Subscription>
-     */
-    #[ORM\ManyToMany(targetEntity: Subscription::class, inversedBy: 'transactions')]
-    private Collection $subscriptions;
+    #[ORM\ManyToOne(inversedBy: 'transactions')]
+    private ?Subscription $subscription = null;
 
     public function __construct()
     {
-        $this->subscriptions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -77,26 +73,14 @@ class Transaction
         return $this;
     }
 
-    /**
-     * @return Collection<int, Subscription>
-     */
-    public function getSubscriptions(): Collection
+    public function getSubscription(): ?Subscription
     {
-        return $this->subscriptions;
+        return $this->subscription;
     }
 
-    public function addSubscription(Subscription $subscription): static
+    public function setSubscription(?Subscription $subscription): static
     {
-        if (!$this->subscriptions->contains($subscription)) {
-            $this->subscriptions->add($subscription);
-        }
-
-        return $this;
-    }
-
-    public function removeSubscription(Subscription $subscription): static
-    {
-        $this->subscriptions->removeElement($subscription);
+        $this->subscription = $subscription;
 
         return $this;
     }

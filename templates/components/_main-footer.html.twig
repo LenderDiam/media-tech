@@ -1,0 +1,62 @@
+<footer class="py-3 mt-auto bg-primary text-bg-primary border-top">
+  <div class="container overflow-hidden">
+    <div class="row g-5 mb-3" id="footer-links">
+      
+      <div class="col-auto">
+        <h1 class="h5">Liens utiles</h1>
+        <ul class="list-unstyled ps-2">
+          <li>
+            <a href="#" class="link-light link-underline-opacity-0">
+              Contact
+            </a>
+          </li>
+          <li>
+            <a href="#" class="link-light link-underline-opacity-0">
+              Mentions légales
+            </a>
+          </li>
+          <li>
+            <a href="#" class="link-light link-underline-opacity-0">
+              Accessibilité
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="col-auto">
+        <h1 class="h5">Nos réseaux</h1>
+        <ul class="list-unstyled ps-2">
+          <li>
+            <a href="https://www.instagram.com/mediateque_montpellier" class="link-light link-underline-opacity-0" target="_blank" aria-label="Instagram">
+              Instagram
+            </a>
+          </li>
+          <li>
+            <a href="https://www.linkedin.com/company/mediateque-montpellier" class="link-light link-underline-opacity-0" target="_blank" aria-label="LinkedIn">
+              LinkedIn
+            </a>
+          </li>
+          <li>
+            <a href="https://www.facebook.com/mediateque.montpellier" class="link-light link-underline-opacity-0" target="_blank" aria-label="Facebook">
+              Facebook
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="col-auto">
+        <h1 class="h5">Nous rejoindre</h1>
+        <p class="mb-2">
+          Rejoignez la Médiathèque de Montpellier et profitez d'un accès privilégié à la culture, au savoir et à la technologie.
+        </p>
+        <a href="{{ path("app_register")}}" class="btn btn-sm btn-warning">
+          S'inscrire
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-center align-items-center gap-2">
+    <p class="text-center text-light text-uppercase m-0">© {{ 'now'|date('Y') }} Médiathèque de Montpellier</p>
+  </div>
+</footer>

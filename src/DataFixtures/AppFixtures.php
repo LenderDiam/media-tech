@@ -36,6 +36,8 @@ use DateTimeImmutable;
 
 class AppFixtures extends Fixture
 {
+
+    // symfony console doctrine:fixtures:load -n.
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create('fr_FR');

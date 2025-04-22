@@ -1,0 +1,17 @@
+{% macro item(label, path, destructive = false, additional_classes = []) %}
+  {% set classes = ['dropdown-item']|merge(additional_classes) %}
+
+  {% if destructive %}
+    {% set classes = classes|merge(['text-danger']) %}
+  {% endif %}
+
+  <li>
+    <a href="{{ path }}" class="{{ classes|join(' ') }}">
+      {{ label }}
+    </a>
+  </li>
+{% endmacro %}
+
+{% macro header(title) %}
+    <li><h6 class="dropdown-header">{{ title }}</h6></li>
+{% endmacro %}

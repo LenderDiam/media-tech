@@ -3,12 +3,13 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-<div class="container m-5">
-    <div class="row justify-content-center">
-        <div class="col-md-4">
-            <div class="card shadow rounded-3">
+    <div class="container my-auto py-5">
+        <div class="mx-auto" style="max-width: 24rem;">
+            <div class="card">
                 <div class="card-body">
-                    <h1 class="card-title text-center mb-4 h3">MEDIA-TECH</h1>
+                    <h1 class="card-title h3 mb-3 text-center">
+                    MEDIA-TECH
+                    </h1>
 
                     {% if registrationForm.vars.errors|length > 0 %}
                         <div class="alert alert-danger">
@@ -59,5 +60,4 @@
             </div>
         </div>
     </div>
-</div>
 {% endblock %}

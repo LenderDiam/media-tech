@@ -3,17 +3,18 @@
 {% block title %}Log in!{% endblock %}
 
 {% block body %}
-<div class="container m-5">
-    <div class="row justify-content-center">
-        <div class="col-md-4">
-            <div class="card shadow rounded-3">
+    <div class="container my-auto py-5">
+        <div class="mx-auto" style="max-width: 24rem;">
+            <div class="card">
                 <div class="card-body">
-                    <h1 class="text-center mb-4 h3">Connexion</h1>
+                    <h1 class="card-title h3 mb-3 text-center">
+                        Connexion
+                    </h1>
 
                     {% if app.user %}
                         <div class="alert alert-info">
                             Vous êtes connecté(e) avec {{ app.user.userIdentifier }},
-                            <a href="{{ path('app_logout') }}">Logout</a>
+                            <a href="{{ path('app_logout') }}">Déconnexion</a>
                         </div>
                     {% endif %}
 
@@ -46,5 +47,4 @@
             </div>
         </div>
     </div>
-</div>
 {% endblock %}

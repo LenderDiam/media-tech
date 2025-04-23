@@ -1,0 +1,52 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}
+ Éditeur
+{% endblock %}
+
+{% block admin_content %}
+  <div class="row align-items-end gap-2 mb-3">
+    <div class="col-auto me-auto">
+      <h2 class="h4 mb-0">Liste des éditeurs</h2>
+    </div>
+
+    <div class="col-auto">
+      <a href="{{ path('app_admin_publisher_new') }}" class="btn btn-primary">Ajouter</a>
+    </div>
+  </div>
+
+  <div class="table-responsive border rounded">
+    <table class="table table-striped mb-0">
+      <thead class="table-bordered">
+        <tr>
+          <th>Id</th>
+          <th>Prénom</th>
+          <th>Nom</th>
+          <th>Société</th>
+          <th>actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for publisher in publishers %}
+          <tr>
+            <td>{{ publisher.id }}</td>
+            <td>{{ publisher.firstname }}</td>
+            <td>{{ publisher.lastname }}</td>
+            <td>{{ publisher.name }}</td>
+            <td>
+              <div class="d-flex align-items-center gap-2">
+                <a href="{{ path('app_admin_publisher_show', { id: publisher.id }) }}" class="btn btn-secondary">Afficher</a>
+                <a href="{{ path('app_admin_publisher_edit', { id: publisher.id }) }}" class="btn btn-secondary">Modifier</a>
+                {% include 'admin/publisher/_delete_form.html.twig' %}
+              </div>
+            </td>
+          </tr>
+        {% else %}
+          <tr>
+            <td colspan="5">aucun éditeur trouvé</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

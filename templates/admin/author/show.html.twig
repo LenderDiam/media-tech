@@ -1,0 +1,36 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title_admin %}
+  Auteur
+{% endblock %}
+
+{% block admin_content %}
+  <h1 class="mb-3">Auteur n°{{ author.id }}</h1>
+
+  <div class="table-responsive border rounded">
+    <table class="table table-striped mb-0">
+      <tbody>
+        <tr>
+          <th>Prénom</th>
+          <td>{{ author.firstname }}</td>
+        </tr>
+        <tr>
+          <th>Nom</th>
+          <td>{{ author.lastname }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="mt-3 d-flex gap-2">
+    <a href="{{ path('app_admin_author_index') }}" class="btn btn-secondary">
+        Retour à la liste
+    </a>
+
+    <a href="{{ path('app_admin_author_edit', { id: author.id }) }}" class="btn btn-primary">
+      Modifier
+    </a>
+
+    {{ include('admin/author/_delete_form.html.twig') }}
+  </div>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title_admin %}
+  Éditeur
+{% endblock %}
+
+{% block admin_content %}
+  <h1 class="mb-3">Éditeur n°{{ publisher.id }}</h1>
+
+  <div class="table-responsive border rounded">
+    <table class="table table-striped mb-0">
+      <tbody>
+        <tr>
+          <th>Prénom</th>
+          <td>{{ publisher.firstname }}</td>
+        </tr>
+        <tr>
+          <th>Nom</th>
+          <td>{{ publisher.lastname }}</td>
+        </tr>
+        <tr>
+          <th>Société</th>
+          <td>{{ publisher.name }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="mt-3 d-flex gap-2">
+    <a href="{{ path('app_admin_publisher_index') }}" class="btn btn-secondary">
+        Retour à la liste
+    </a>
+
+    <a href="{{ path('app_admin_publisher_edit', { id: publisher.id }) }}" class="btn btn-primary">
+      Modifier
+    </a>
+
+    {{ include('admin/publisher/_delete_form.html.twig') }}
+  </div>
+{% endblock %}

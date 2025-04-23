@@ -165,6 +165,7 @@ class AppFixtures extends Fixture
             }
 
             $doc
+                ->setTitle($faker->sentence(3))
                 ->setLangage($faker->randomElement(['fr', 'en']))
                 ->setThumbnailUrl($faker->imageUrl())
                 ->setPublicationDate($faker->dateTimeBetween('-10 years', 'now'))

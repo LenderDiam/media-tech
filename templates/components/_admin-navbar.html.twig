@@ -1,0 +1,41 @@
+{% import "macros/navigation.html.twig" as navigation %}
+
+<nav class="overflow-x-auto" id="admin-navbar">
+  <ul class="nav nav-tabs text-nowrap flex-nowrap">
+
+    {{ navigation.nav_item(
+      label: 'Utilisateurs',
+      path: '#',
+      icon: '',
+      check_path: 'app_admin_user',
+    ) }}
+    
+    {{ navigation.nav_item(
+      label: 'Documents',
+      path: '#',
+      icon: '',
+      check_path: 'app_admin_document',
+    ) }}
+    
+    {{ navigation.nav_item(
+      label: 'Auteurs',
+      path: '#',
+      icon: '',
+      check_path: 'app_admin_author',
+    ) }}
+    
+    {{ navigation.nav_item(
+      label: 'Éditeurs',
+      path: '#',
+      icon: '',
+      check_path: 'app_admin_publisher',
+    ) }}
+    
+    {{ navigation.nav_item(
+      label: 'Notifications',
+      path: '#',
+      icon: '',
+      check_path: 'app_admin_notification',
+    ) }}
+  </ul>
+</nav>

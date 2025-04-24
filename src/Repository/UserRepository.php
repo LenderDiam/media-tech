@@ -49,6 +49,20 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->getOneOrNullResult();
     }
 
+    public function findLatestTransactionForUser(User $user): ?\App\Entity\Transaction
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT t
+             FROM App\Entity\Transaction t
+             WHERE t.user = :user
+             ORDER BY t.createdAt DESC'
+            )
+            ->setParameter('user', $user)
+            ->setMaxResults(1)
+            ->getOneOrNullResult();
+    }
+
     //    /**
     //     * @return User[] Returns an array of User objects
     //     */

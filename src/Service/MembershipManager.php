@@ -8,6 +8,21 @@ use App\Enum\MembershipState;
 
 final class MembershipManager
 {
+    public function create(User $user, Membership $membership): void
+    {
+        $membership
+            ->setUser($user)
+            ->setCreatedAt(new \DateTimeImmutable())
+        ;
+    }
+
+    public function update(Membership $membership): void
+    {
+        $membership
+            ->setUpdatedAt(new \DateTimeImmutable())
+        ;
+    }
+
     public function approve(User $who, User $by, Membership $membership): void
     {
         $who

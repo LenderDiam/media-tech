@@ -1,0 +1,44 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title_admin %}
+  Audio
+{% endblock %}
+
+{% block admin_content %}
+  <h1 class="mb-3">Audio n°{{ audio.id }}</h1>
+
+  <div class="table-responsive border rounded">
+    <table class="table table-striped mb-0 align-middle">
+      <tbody>
+        <tr>
+          <th>Titre</th>
+          <td>{{ audio.title }}</td>
+        </tr>
+        <tr>
+          <th>Langage</th>
+          <td>{{ audio.langage }}</td>
+        </tr>
+        <tr>
+          <th>Date de publication</th>
+          <td>{{ audio.publicationDate ? audio.publicationDate|date('Y-m-d') : '' }}</td>
+        </tr>
+        <tr>
+          <th>Duration</th>
+          <td>{{ audio.duration ? audio.duration|date('H:i:s') : '' }}</td>
+        </tr>
+        <tr>
+          <th>Format</th>
+          <td>{{ audio.format.label() }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="mt-3 d-flex gap-2">
+    <a href="{{ path('app_admin_document_audio_index') }}" class="btn btn-secondary">Retour à la liste</a>
+
+    <a href="{{ path('app_admin_document_audio_edit', { id: audio.id }) }}" class="btn btn-primary">Modifier</a>
+
+    {% include 'admin/document/audio/_delete_form.html.twig' %}
+  </div>
+{% endblock %}

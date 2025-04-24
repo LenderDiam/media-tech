@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250424135131 extends AbstractMigration
+final class Version20250424154337 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -51,7 +51,7 @@ final class Version20250424135131 extends AbstractMigration
             CREATE TABLE loan (id INT AUTO_INCREMENT NOT NULL, start_at DATETIME NOT NULL, withdrawal_at DATETIME DEFAULT NULL, back_at DATETIME DEFAULT NULL, user_id INT DEFAULT NULL, INDEX IDX_C5D30D03A76ED395 (user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE membership (id INT AUTO_INCREMENT NOT NULL, document LONGTEXT NOT NULL, created_at DATETIME DEFAULT NULL, updated_at DATETIME DEFAULT NULL, user_id INT DEFAULT NULL, INDEX IDX_86FFD285A76ED395 (user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
+            CREATE TABLE membership (id INT AUTO_INCREMENT NOT NULL, document LONGTEXT NOT NULL, created_at DATETIME DEFAULT NULL, updated_at DATETIME DEFAULT NULL, state INT DEFAULT 1 NOT NULL, user_id INT DEFAULT NULL, INDEX IDX_86FFD285A76ED395 (user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
         SQL);
         $this->addSql(<<<'SQL'
             CREATE TABLE notification (id INT AUTO_INCREMENT NOT NULL, object VARCHAR(255) NOT NULL, description LONGTEXT DEFAULT NULL, sent_at DATETIME DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4

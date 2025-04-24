@@ -2,9 +2,11 @@
 
 namespace App\Entity;
 
+use App\Enum\MembershipState;
 use App\Repository\MembershipRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MembershipRepository::class)]
 class Membership
@@ -25,6 +27,10 @@ class Membership
 
     #[ORM\ManyToOne(inversedBy: 'memberships')]
     private ?User $user = null;
+
+    #[Assert\NotBlank()]
+    #[ORM\Column(enumType: MembershipState::class, options: ['default' => MembershipState::Pending->value])]
+    private ?MembershipState $state = MembershipState::Pending;
 
     public function getId(): ?int
     {
@@ -75,6 +81,18 @@ class Membership
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getState(): ?MembershipState
+    {
+        return $this->state;
+    }
+
+    public function setState(MembershipState $state): static
+    {
+        $this->state = $state;
 
         return $this;
     }

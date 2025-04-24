@@ -24,6 +24,7 @@ use App\Enum\{
     BasketState,
     CopyPhysicalCondition,
     CopyState,
+    MembershipState,
     PeriodicalFrequency,
     SubscriptionPeriodicity,
     VideoFormat,
@@ -322,6 +323,7 @@ class AppFixtures extends Fixture
                 ->setUpdatedAt(DateTimeImmutable::createFromMutable($faker->dateTimeBetween('-1 year', 'now')))
                 ->setDocument($faker->text(100))
                 ->setUser($user)
+                ->setState($faker->randomElement([MembershipState::Pending, MembershipState::Approved, MembershipState::Rejected]))
             ;
 
             $manager->persist($membership);

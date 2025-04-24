@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250423135113 extends AbstractMigration
+final class Version20250424135131 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -42,7 +42,7 @@ final class Version20250423135113 extends AbstractMigration
             CREATE TABLE copy_basket (copy_id INT NOT NULL, basket_id INT NOT NULL, INDEX IDX_87F83FC0A8752772 (copy_id), INDEX IDX_87F83FC01BE1FB52 (basket_id), PRIMARY KEY(copy_id, basket_id)) DEFAULT CHARACTER SET utf8mb4
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE document (id INT AUTO_INCREMENT NOT NULL, title VARCHAR(255) NOT NULL, langage VARCHAR(255) NOT NULL, thumbnail_url LONGTEXT NOT NULL, publication_date DATETIME DEFAULT NULL, type VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
+            CREATE TABLE document (id INT AUTO_INCREMENT NOT NULL, title VARCHAR(255) NOT NULL, langage VARCHAR(255) NOT NULL, thumbnail_url LONGTEXT NOT NULL, publication_date DATE DEFAULT NULL, type VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
         SQL);
         $this->addSql(<<<'SQL'
             CREATE TABLE document_user (document_id INT NOT NULL, user_id INT NOT NULL, INDEX IDX_2A275ADAC33F7837 (document_id), INDEX IDX_2A275ADAA76ED395 (user_id), PRIMARY KEY(document_id, user_id)) DEFAULT CHARACTER SET utf8mb4
@@ -75,7 +75,7 @@ final class Version20250423135113 extends AbstractMigration
             CREATE TABLE transaction (id INT AUTO_INCREMENT NOT NULL, amount NUMERIC(5, 2) NOT NULL, created_at DATETIME NOT NULL, user_id INT DEFAULT NULL, subscription_id INT DEFAULT NULL, INDEX IDX_723705D1A76ED395 (user_id), INDEX IDX_723705D19A1887DC (subscription_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE user (id INT AUTO_INCREMENT NOT NULL, firstname VARCHAR(255) NOT NULL, lastname VARCHAR(255) NOT NULL, email VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL, roles JSON NOT NULL, UNIQUE INDEX UNIQ_IDENTIFIER_EMAIL (email), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
+            CREATE TABLE user (id INT AUTO_INCREMENT NOT NULL, firstname VARCHAR(255) NOT NULL, lastname VARCHAR(255) NOT NULL, email VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL, roles JSON NOT NULL, approved_at DATETIME DEFAULT NULL, rejected_at DATETIME DEFAULT NULL, approved_by_id INT DEFAULT NULL, rejected_by_id INT DEFAULT NULL, INDEX IDX_8D93D6492D234F6A (approved_by_id), INDEX IDX_8D93D649CBF05FC9 (rejected_by_id), UNIQUE INDEX UNIQ_IDENTIFIER_EMAIL (email), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
         SQL);
         $this->addSql(<<<'SQL'
             CREATE TABLE video (duration TIME DEFAULT NULL, format INT DEFAULT 0 NOT NULL, id INT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
@@ -144,6 +144,12 @@ final class Version20250423135113 extends AbstractMigration
             ALTER TABLE transaction ADD CONSTRAINT FK_723705D19A1887DC FOREIGN KEY (subscription_id) REFERENCES subscription (id)
         SQL);
         $this->addSql(<<<'SQL'
+            ALTER TABLE user ADD CONSTRAINT FK_8D93D6492D234F6A FOREIGN KEY (approved_by_id) REFERENCES user (id)
+        SQL);
+        $this->addSql(<<<'SQL'
+            ALTER TABLE user ADD CONSTRAINT FK_8D93D649CBF05FC9 FOREIGN KEY (rejected_by_id) REFERENCES user (id)
+        SQL);
+        $this->addSql(<<<'SQL'
             ALTER TABLE video ADD CONSTRAINT FK_7CC7DA2CBF396750 FOREIGN KEY (id) REFERENCES document (id) ON DELETE CASCADE
         SQL);
     }
@@ -210,6 +216,12 @@ final class Version20250423135113 extends AbstractMigration
         SQL);
         $this->addSql(<<<'SQL'
             ALTER TABLE transaction DROP FOREIGN KEY FK_723705D19A1887DC
+        SQL);
+        $this->addSql(<<<'SQL'
+            ALTER TABLE user DROP FOREIGN KEY FK_8D93D6492D234F6A
+        SQL);
+        $this->addSql(<<<'SQL'
+            ALTER TABLE user DROP FOREIGN KEY FK_8D93D649CBF05FC9
         SQL);
         $this->addSql(<<<'SQL'
             ALTER TABLE video DROP FOREIGN KEY FK_7CC7DA2CBF396750

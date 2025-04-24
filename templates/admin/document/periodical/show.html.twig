@@ -26,6 +26,52 @@
           <th>Fréquence de publication</th>
           <td>{{ periodical.frequency.label() }}</td>
         </tr>
+        <tr>
+          <th>Auteur</th>
+          <td>
+            <ul class="list-unstyled mb-0">
+              {% if periodical.authors is empty %}
+                <li>Aucun auteur</li>
+              {% endif %}
+
+              {% for author in periodical.authors %}
+                <li>{{ author.firstname }} {{ author.lastname}}</li>
+              {% endfor %}
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <th>Éditeur</th>
+          <td>
+            <ul class="list-unstyled mb-0">
+              {% if periodical.publishers is empty %}
+                <li>Aucun éditeur</li>
+              {% endif %}
+
+              {% for publisher in periodical.publishers %}
+                {% if publisher.firstname is empty %}
+                  <li>{{ publisher.name }}</li>
+                {% else %}
+                  <li>{{ publisher.firstname }} {{ publisher.lastname }}</li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <th>Utilisateur en favori</th>
+          <td>
+            <ul class="list-unstyled mb-0">
+              {% if periodical.users is empty %}
+                <li>Aucun auteur</li>
+              {% endif %}
+
+              {% for user in periodical.users %}
+                <li>{{ user.email }}</li>
+              {% endfor %}
+            </ul>
+          </td>
+        </tr>
       </tbody>
     </table>
   </div>

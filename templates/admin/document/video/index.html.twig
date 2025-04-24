@@ -1,0 +1,56 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}
+  Vidéo
+{% endblock %}
+
+{% block admin_content %}
+  <div class="row align-items-end gap-2 mb-3">
+    <div class="col-auto me-auto">
+      <h2 class="h4 mb-0">Liste des videos</h2>
+    </div>
+
+    <div class="col-auto">
+      <a href="{{ path('app_admin_document_video_new') }}" class="btn btn-primary">Ajouter</a>
+    </div>
+  </div>
+
+  <div class="table-responsive border rounded">
+    <table class="table table-striped mb-0 align-middle">
+      <thead class="table-bordered">
+        <tr>
+          <th>Id</th>
+          <th>Titre</th>
+          <th>Langage</th>
+          <th>Date de Publication</th>
+          <th>Durée</th>
+          <th>Format</th>
+          <th>actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for video in videos %}
+          <tr>
+            <td>{{ video.id }}</td>
+            <td>{{ video.title }}</td>
+            <td>{{ video.langage }}</td>
+            <td>{{ video.publicationDate ? video.publicationDate|date('Y-m-d') : '' }}</td>
+            <td>{{ video.duration ? video.duration|date('H:i:s') : '' }}</td>
+            <td>{{ video.format.label() }}</td>
+            <td>
+              <div class="d-flex align-items-center gap-2">
+                <a href="{{ path('app_admin_document_video_show', { id: video.id }) }}" class="btn btn-secondary">Afficher</a>
+                <a href="{{ path('app_admin_document_video_edit', { id: video.id }) }}" class="btn btn-secondary">Modifier</a>
+                {% include 'admin/document/video/_delete_form.html.twig' %}
+              </div>
+            </td>
+          </tr>
+        {% else %}
+          <tr>
+            <td colspan="7">aucune video trouvée</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

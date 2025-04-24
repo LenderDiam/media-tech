@@ -74,6 +74,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Notification::class, mappedBy: 'users')]
     private Collection $notifications;
 
+    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'approvedUsers')]
+    private ?self $approvedBy = null;
+
+    /**
+     * @var Collection<int, self>
+     */
+    #[ORM\OneToMany(targetEntity: self::class, mappedBy: 'approvedBy')]
+    private Collection $approvedUsers;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $approvedAt = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $rejectedAt = null;
+
+    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'rejectedUsers')]
+    private ?self $rejectedBy = null;
+
+    /**
+     * @var Collection<int, self>
+     */
+    #[ORM\OneToMany(targetEntity: self::class, mappedBy: 'rejectedBy')]
+    private Collection $rejectedUsers;
+
     public function __construct()
     {
         $this->memberships = new ArrayCollection();
@@ -350,6 +374,114 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getApprovedBy(): ?self
+    {
+        return $this->approvedBy;
+    }
+
+    public function setApprovedBy(?self $approvedBy): static
+    {
+        $this->approvedBy = $approvedBy;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getApprovedUsers(): Collection
+    {
+        return $this->approvedUsers;
+    }
+
+    public function addApprovedUser(self $approvedUser): static
+    {
+        if (!$this->approvedUsers->contains($approvedUser)) {
+            $this->approvedUsers->add($approvedUser);
+            $approvedUser->setApprovedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeApprovedUser(self $approvedUser): static
+    {
+        if ($this->approvedUsers->removeElement($approvedUser)) {
+            // set the owning side to null (unless already changed)
+            if ($approvedUser->getApprovedBy() === $this) {
+                $approvedUser->setApprovedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getApprovedAt(): ?\DateTimeImmutable
+    {
+        return $this->approvedAt;
+    }
+
+    public function setApprovedAt(?\DateTimeImmutable $approvedAt): static
+    {
+        $this->approvedAt = $approvedAt;
+
+        return $this;
+    }
+
+    public function getRejectedAt(): ?\DateTimeImmutable
+    {
+        return $this->rejectedAt;
+    }
+
+    public function setRejectedAt(?\DateTimeImmutable $rejectedAt): static
+    {
+        $this->rejectedAt = $rejectedAt;
+
+        return $this;
+    }
+
+    public function getRejectedBy(): ?self
+    {
+        return $this->rejectedBy;
+    }
+
+    public function setRejectedBy(?self $rejectedBy): static
+    {
+        $this->rejectedBy = $rejectedBy;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getRejectedUsers(): Collection
+    {
+        return $this->rejectedUsers;
+    }
+
+    public function addRejectedUser(self $rejectedUser): static
+    {
+        if (!$this->rejectedUsers->contains($rejectedUser)) {
+            $this->rejectedUsers->add($rejectedUser);
+            $rejectedUser->setRejectedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRejectedUser(self $rejectedUser): static
+    {
+        if ($this->rejectedUsers->removeElement($rejectedUser)) {
+            // set the owning side to null (unless already changed)
+            if ($rejectedUser->getRejectedBy() === $this) {
+                $rejectedUser->setRejectedBy(null);
+            }
+        }
+
+        return $this;
+    }
+    
     /**
      * @see UserInterface
      */

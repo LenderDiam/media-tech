@@ -1,0 +1,38 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title_admin %}
+  Demande d'adhésion
+{% endblock %}
+
+{% block admin_content %}
+  <h1 class="mb-3">Demande d'adhésion n°{{ membership.id }}</h1>
+
+  <div class="table-responsive border rounded">
+    <table class="table table-striped mb-0 align-middle">
+      <tbody>
+        <tr>
+          <th>Document</th>
+          <td>{{ membership.document }}</td>
+        </tr>
+        <tr>
+          <th>Date de création</th>
+          <td>{{ membership.createdAt ? membership.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+        </tr>
+        <tr>
+          <th>Date de modification</th>
+          <td>{{ membership.updatedAt ? membership.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+        </tr>
+        <tr>
+          <th>Utilisateur</th>
+          <td>{{ membership.user.email }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="mt-3 d-flex gap-2">
+    <a href="{{ path('app_admin_membership_index') }}" class="btn btn-secondary">Retour à la liste</a>
+
+    {{ include('admin/membership/_delete_form.html.twig') }}
+  </div>
+{% endblock %}

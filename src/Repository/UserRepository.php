@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Subscription;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -31,6 +32,21 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $user->setPassword($newHashedPassword);
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush();
+    }
+
+    public function findLatestSubscriptionForUser(User $user): ?Subscription
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT s
+             FROM App\Entity\Subscription s
+             JOIN s.transactions t
+             WHERE t.user = :user
+             ORDER BY t.createdAt DESC'
+            )
+            ->setParameter('user', $user)
+            ->setMaxResults(1)
+            ->getOneOrNullResult();
     }
 
     //    /**

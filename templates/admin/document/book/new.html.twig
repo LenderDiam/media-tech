@@ -1,0 +1,10 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title_admin %}Nouveau Livre{% endblock %}
+
+{% block admin_content %}
+  <div class="container-form">
+    <h2>Nouveau Livre</h2>
+    {% include "admin/document/book/_form.html.twig" %}
+  </div>
+{% endblock %}

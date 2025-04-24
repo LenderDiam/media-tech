@@ -9,4 +9,15 @@ enum AudioFormat: int
     case Wav = 2;
     case Flac = 3;
     case Other = 4;
+    
+    public function label(): string
+    {
+        return match($this) {
+            self::Undefined => 'non défini',
+            self::Mp3 => 'mp3',
+            self::Wav => 'wav',
+            self::Flac => 'flac',
+            self::Other => 'autre',
+        };
+    }
 }

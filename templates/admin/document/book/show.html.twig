@@ -1,0 +1,92 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title_admin %}
+  Livre
+{% endblock %}
+
+{% block admin_content %}
+  <h1 class="mb-3">Livre n°{{ book.id }}</h1>
+
+  <div class="table-responsive border rounded">
+    <table class="table table-striped mb-0 align-middle">
+      <tbody>
+        <tr>
+          <th>Titre</th>
+          <td>{{ book.title }}</td>
+        </tr>
+        <tr>
+          <th>Langage</th>
+          <td>{{ book.langage }}</td>
+        </tr>
+        <tr>
+          <th>Date de publication</th>
+          <td>{{ book.publicationDate ? book.publicationDate|date('Y-m-d') : '' }}</td>
+        </tr>
+        <tr>
+          <th>Isbn</th>
+          <td>{{ book.isbn }}</td>
+        </tr>
+        <tr>
+          <th>Nombre de pages</th>
+          <td>{{ book.pages }}</td>
+        </tr>
+        <tr>
+          <th>Auteur</th>
+          <td>
+            <ul class="list-unstyled mb-0">
+              {% if book.authors is empty %}
+                <li>Aucun auteur</li>
+              {% endif %}
+              
+              {% for author in book.authors %}
+                <li>{{ author.firstname }} {{ author.lastname}}</li>
+              {% endfor %}
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <th>Éditeur</th>
+          <td>
+            <ul class="list-unstyled mb-0">
+              {% if book.publishers is empty %}
+                <li>Aucun éditeur</li>
+              {% endif %}
+
+              {% for publisher in book.publishers %}
+              
+                {% if publisher.firstname is empty %}
+                  <li>{{ publisher.name }}</li>
+                {% else %}
+                  <li>{{ publisher.firstname }} {{ publisher.lastname }}</li>
+                {% endif %}
+
+              {% endfor %}
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <th>Utilisateur en favori</th>
+          <td>
+            <ul class="list-unstyled mb-0">
+              {% if book.users is empty %}
+                <li>Aucun auteur</li>
+              {% endif %}
+
+              {% for user in book.users %}
+                <li>{{ user.email }}</li>
+              {% endfor %}
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="mt-3 d-flex gap-2">
+    <a href="{{ path('app_admin_document_book_index') }}" class="btn btn-secondary">Retour à la liste</a>
+
+    <a href="{{ path('app_admin_document_book_edit', { id: book.id }) }}" class="btn btn-primary">Modifier</a>
+
+    {% include 'admin/document/book/_delete_form.html.twig' %}
+  </div>
+{% endblock %}

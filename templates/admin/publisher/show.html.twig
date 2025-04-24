@@ -8,7 +8,7 @@
   <h1 class="mb-3">Éditeur n°{{ publisher.id }}</h1>
 
   <div class="table-responsive border rounded">
-    <table class="table table-striped mb-0">
+    <table class="table table-striped mb-0 align-middle">
       <tbody>
         <tr>
           <th>Prénom</th>
@@ -21,6 +21,20 @@
         <tr>
           <th>Société</th>
           <td>{{ publisher.name }}</td>
+        </tr>
+        <tr>
+          <th>Oeuvres</th>
+          <td>
+            <ul class="list-unstyled mb-0">
+              {% if publisher.documents is empty %}
+                <li>Aucun oeuvres</li>
+              {% endif %}
+
+              {% for document in publisher.documents %}
+                {{ document.title }}
+              {% endfor %}
+            </ul>
+          </td>
         </tr>
       </tbody>
     </table>

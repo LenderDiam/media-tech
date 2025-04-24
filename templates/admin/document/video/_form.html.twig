@@ -1,0 +1,21 @@
+{{ form_start(form) }}
+
+{{ form_row(form.title) }}
+{{ form_row(form.langage) }}
+
+<div class="row">
+  <div class="col-md-6">{{ form_row(form.publicationDate) }}</div>
+
+  <div class="col-md-6">{{ form_row(form.duration) }}</div>
+</div>
+
+{{ form_row(form.thumbnailUrl) }}
+{{ form_row(form.format) }}
+{{ form_row(form.authors) }}
+{{ form_row(form.publishers) }}
+{{ form_row(form.users) }}
+
+<div class="text-end">
+  <button type="submit" class="btn btn-primary">Enregistrer</button>
+</div>
+{{ form_end(form) }}

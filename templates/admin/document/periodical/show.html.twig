@@ -1,0 +1,86 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title_admin %}
+  Périodique
+{% endblock %}
+
+{% block admin_content %}
+  <h1 class="mb-3">Périodique n°{{ periodical.id }}</h1>
+
+  <div class="table-responsive border rounded">
+    <table class="table table-striped mb-0 align-middle">
+      <tbody>
+        <tr>
+          <th>Titre</th>
+          <td>{{ periodical.title }}</td>
+        </tr>
+        <tr>
+          <th>Langage</th>
+          <td>{{ periodical.langage }}</td>
+        </tr>
+        <tr>
+          <th>Date de publication</th>
+          <td>{{ periodical.publicationDate ? periodical.publicationDate|date('Y-m-d') : '' }}</td>
+        </tr>
+        <tr>
+          <th>Fréquence de publication</th>
+          <td>{{ periodical.frequency.label() }}</td>
+        </tr>
+        <tr>
+          <th>Auteur</th>
+          <td>
+            <ul class="list-unstyled mb-0">
+              {% if periodical.authors is empty %}
+                <li>Aucun auteur</li>
+              {% endif %}
+
+              {% for author in periodical.authors %}
+                <li>{{ author.firstname }} {{ author.lastname}}</li>
+              {% endfor %}
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <th>Éditeur</th>
+          <td>
+            <ul class="list-unstyled mb-0">
+              {% if periodical.publishers is empty %}
+                <li>Aucun éditeur</li>
+              {% endif %}
+
+              {% for publisher in periodical.publishers %}
+                {% if publisher.firstname is empty %}
+                  <li>{{ publisher.name }}</li>
+                {% else %}
+                  <li>{{ publisher.firstname }} {{ publisher.lastname }}</li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <th>Utilisateur en favori</th>
+          <td>
+            <ul class="list-unstyled mb-0">
+              {% if periodical.users is empty %}
+                <li>Aucun auteur</li>
+              {% endif %}
+
+              {% for user in periodical.users %}
+                <li>{{ user.email }}</li>
+              {% endfor %}
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="mt-3 d-flex gap-2">
+    <a href="{{ path('app_admin_document_periodical_index') }}" class="btn btn-secondary">Retour à la liste</a>
+
+    <a href="{{ path('app_admin_document_periodical_edit', { id: periodical.id }) }}" class="btn btn-primary">Modifier</a>
+
+    {% include 'admin/document/periodical/_delete_form.html.twig' %}
+  </div>
+{% endblock %}

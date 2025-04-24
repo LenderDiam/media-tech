@@ -1,6 +1,10 @@
+{% import "macros/dropdown.html.twig" as dropdown %}
 {% import "macros/navigation.html.twig" as navigation %}
 
-<nav class="overflow-x-auto" id="admin-navbar">
+{% set route = app.request.attributes.get('_route') %}
+{% set is_documents_active = route starts with 'app_admin_document' %}
+
+<nav class="" id="admin-navbar">
   <ul class="nav nav-tabs text-nowrap flex-nowrap">
 
     {{ navigation.nav_item(
@@ -9,28 +13,50 @@
       icon: '',
       check_path: 'app_admin_user',
     ) }}
-    
-    {{ navigation.nav_item(
-      label: 'Documents',
-      path: '#',
-      icon: '',
-      check_path: 'app_admin_document',
-    ) }}
-    
+
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle {{ is_documents_active ? 'active' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Documents
+      </a>
+      <ul class="dropdown-menu">
+        {{ dropdown.header('Gestion des documents') }}
+
+        {{ dropdown.item(
+          label: 'Livres',
+          path: path('app_admin_document_book_index'),
+        ) }}
+
+        {{ dropdown.item(
+          label: 'Periodiques',
+          path: path('app_admin_document_periodical_index'),
+        ) }}
+
+        {{ dropdown.item(
+          label: 'Audios',
+          path: path('app_admin_document_audio_index'),
+        ) }}
+
+        {{ dropdown.item(
+          label: 'Videos',
+          path: path('app_admin_document_video_index'),
+        ) }}
+      </ul>
+    </li>
+
     {{ navigation.nav_item(
       label: 'Auteurs',
       path: path('app_admin_author_index'),
       icon: '',
       check_path: 'app_admin_author',
     ) }}
-    
+
     {{ navigation.nav_item(
       label: 'Éditeurs',
       path: path('app_admin_publisher_index'),
       icon: '',
       check_path: 'app_admin_publisher',
     ) }}
-    
+
     {{ navigation.nav_item(
       label: 'Notifications',
       path: '#',

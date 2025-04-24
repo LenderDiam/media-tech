@@ -8,7 +8,7 @@
   <h1 class="mb-3">Auteur n°{{ author.id }}</h1>
 
   <div class="table-responsive border rounded">
-    <table class="table table-striped mb-0">
+    <table class="table table-striped mb-0 align-middle">
       <tbody>
         <tr>
           <th>Prénom</th>
@@ -17,6 +17,20 @@
         <tr>
           <th>Nom</th>
           <td>{{ author.lastname }}</td>
+        </tr>
+        <tr>
+          <th>Oeuvres</th>
+          <td>
+            <ul class="list-unstyled mb-0">
+              {% if author.documents is empty %}
+                <li>Aucun oeuvres</li>
+              {% endif %}
+
+              {% for document in author.documents %}
+                {{ document.title }}
+              {% endfor %}
+            </ul>
+          </td>
         </tr>
       </tbody>
     </table>

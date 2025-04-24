@@ -1,0 +1,10 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title_admin %}Nouvelle Vidéo{% endblock %}
+
+{% block admin_content %}
+  <div class="container-form">
+    <h2>Nouvelle Vidéo</h2>
+    {% include "admin/document/video/_form.html.twig" %}
+  </div>
+{% endblock %}

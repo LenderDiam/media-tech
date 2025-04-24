@@ -18,6 +18,20 @@
           <th>Nom</th>
           <td>{{ author.lastname }}</td>
         </tr>
+        <tr>
+          <th>Oeuvres</th>
+          <td>
+            <ul class="list-unstyled mb-0">
+              {% if author.documents is empty %}
+                <li>Aucun oeuvres</li>
+              {% endif %}
+
+              {% for document in author.documents %}
+                {{ document.title }}
+              {% endfor %}
+            </ul>
+          </td>
+        </tr>
       </tbody>
     </table>
   </div>

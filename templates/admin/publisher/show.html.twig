@@ -22,6 +22,20 @@
           <th>Société</th>
           <td>{{ publisher.name }}</td>
         </tr>
+        <tr>
+          <th>Oeuvres</th>
+          <td>
+            <ul class="list-unstyled mb-0">
+              {% if publisher.documents is empty %}
+                <li>Aucun oeuvres</li>
+              {% endif %}
+
+              {% for document in publisher.documents %}
+                {{ document.title }}
+              {% endfor %}
+            </ul>
+          </td>
+        </tr>
       </tbody>
     </table>
   </div>

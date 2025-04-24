@@ -1,0 +1,68 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title_admin %}
+  Adhésion
+{% endblock %}
+
+{% block admin_content %}
+  <div class="row align-items-end gap-2 mb-3">
+    <div class="col-auto me-auto">
+      <h2 class="h4 mb-0">Liste des demandes d'adhésion</h2>
+    </div>
+  </div>
+
+  <div class="table-responsive border rounded">
+    <table class="table table-striped mb-0 align-middle">
+      <thead class="table-bordered">
+        <tr>
+          <th>Id</th>
+          <th>Document</th>
+          <th>Utilisateur</th>
+          <th>Status</th>
+          <th>actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for membership in memberships %}
+          <tr>
+            <td>{{ membership.id }}</td>
+            <td>{{ membership.document }}</td>
+            <td>{{ membership.user.email }}</td>
+            <td>
+              {# {% if membership.state == 1 %}
+                <span class="badge bg-warning">En attente</span>
+              {% elseif membership.state == 2 %}
+                <span class="badge bg-success">Approuvé</span>
+              {% elseif membership.state == 3 %} #}
+              <span class="badge 
+                  {% if membership.state.label() == 'en attente' %}
+                      bg-warning
+                  {% elseif membership.state.label() == 'rejeté' %}
+                      bg-danger
+                  {% elseif membership.state.label() == 'approuvé' %}
+                      bg-success
+                  {% else %}
+                      bg-secondary
+                  {% endif %}
+              ">
+                {{ membership.state.label() }}
+              </span>
+            </td>
+            <td>
+              <div class="d-flex align-items-center gap-2">
+                <a href="{{ path('app_admin_membership_show', { id: membership.id }) }}" class="btn btn-primary">Détails</a>
+                <a href="{{ path('app_admin_membership_approve', { id: membership.id, user: membership.user.id }) }}" class="btn btn-success">Approuver</a>
+                <a href="{{ path('app_admin_membership_reject', { id: membership.id, user: membership.user.id }) }}" class="btn btn-warning">Rejeter</a>
+                {% include 'admin/membership/_delete_form.html.twig' %}
+              </div>
+            </td>
+          </tr>
+        {% else %}
+          <tr>
+            <td colspan="5">no records found</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

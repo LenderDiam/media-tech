@@ -24,6 +24,7 @@ use App\Enum\{
     BasketState,
     CopyPhysicalCondition,
     CopyState,
+    MembershipState,
     PeriodicalFrequency,
     SubscriptionPeriodicity,
     VideoFormat,
@@ -43,20 +44,6 @@ class AppFixtures extends Fixture
         $faker = Factory::create('fr_FR');
 
         $users = [];
-        for ($i = 0; $i < 9; $i++) {
-            $user = new User();
-
-            $user
-                ->setFirstname($faker->firstName)
-                ->setLastname($faker->lastName)
-                ->setEmail($faker->unique()->safeEmail)
-                ->setPassword(password_hash('password', PASSWORD_BCRYPT))
-                ->setRoles(['ROLE_USER'])
-            ;
-
-            $manager->persist($user);
-            $users[] = $user;
-        }
 
         $admin = new User();
 
@@ -70,6 +57,39 @@ class AppFixtures extends Fixture
 
         $manager->persist($admin);
         $users[] = $admin;
+
+        for ($i = 0; $i < 9; $i++) {
+            $user = new User();
+
+            $user
+                ->setFirstname($faker->firstName)
+                ->setLastname($faker->lastName)
+                ->setEmail($faker->unique()->safeEmail)
+                ->setPassword(password_hash('password', PASSWORD_BCRYPT))
+                ->setRoles(['ROLE_USER'])
+            ;
+
+            $randomValue = $faker->numberBetween(1, 100);
+
+            if ($randomValue <= 30) {
+                $user
+                    ->setApprovedAt(DateTimeImmutable::createFromMutable($faker->dateTimeBetween('-1 year', 'now')))
+                    ->setApprovedBy($admin)
+                ;
+                $admin->addApprovedUser($user);
+            } elseif ($randomValue > 30 && $randomValue <= 60) {
+                $user
+                    ->setRejectedAt(DateTimeImmutable::createFromMutable($faker->dateTimeBetween('-1 year', 'now')))
+                    ->setRejectedBy($admin)
+                ;
+                $admin->addRejectedUser($user);
+            } else {
+            }
+
+            $manager->persist($user);
+            $users[] = $user;
+        }
+
         $manager->flush();
 
         $subscriptions = [];
@@ -168,7 +188,9 @@ class AppFixtures extends Fixture
                 ->setTitle($faker->sentence(3))
                 ->setLangage($faker->randomElement(['fr', 'en']))
                 ->setThumbnailUrl($faker->imageUrl())
-                ->setPublicationDate($faker->dateTimeBetween('-10 years', 'now'))
+                ->setPublicationDate(
+                    \DateTime::createFromFormat('Y-m-d', $faker->date('Y-m-d', $faker->dateTimeBetween('-10 years', 'now')))
+                )
             ;
 
             $manager->persist($doc);
@@ -301,6 +323,7 @@ class AppFixtures extends Fixture
                 ->setUpdatedAt(DateTimeImmutable::createFromMutable($faker->dateTimeBetween('-1 year', 'now')))
                 ->setDocument($faker->text(100))
                 ->setUser($user)
+                ->setState($faker->randomElement([MembershipState::Pending, MembershipState::Approved, MembershipState::Rejected]))
             ;
 
             $manager->persist($membership);

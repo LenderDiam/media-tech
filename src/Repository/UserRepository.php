@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Subscription;
 use App\Entity\User;
+use App\Enum\SubscriptionPeriodicity;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -61,6 +62,38 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->setParameter('user', $user)
             ->setMaxResults(1)
             ->getOneOrNullResult();
+    }
+
+    public function findCurrentSubscriptionForUser(User $user): ?Subscription
+    {
+        $lastTransaction = $this->findLatestTransactionForUser($user);
+        if (!$lastTransaction) {
+            return null;
+        }
+
+        $lastSubscription = $this->findLatestSubscriptionForUser($user);
+        if (!$lastSubscription) {
+            return null;
+        }
+
+        $validityMap = [
+            SubscriptionPeriodicity::Monthly->value => '-1 month',
+            SubscriptionPeriodicity::Yearly->value => '-1 year',
+        ];
+
+        $periodicity = $lastSubscription->getPeriodicity();
+        if ($periodicity instanceof \App\Enum\SubscriptionPeriodicity) {
+            $periodicity = $periodicity->value;
+        }
+
+        if (isset($validityMap[$periodicity])) {
+            $validityDate = (new \DateTimeImmutable())->modify($validityMap[$periodicity]);
+            if ($lastTransaction->getCreatedAt() > $validityDate) {
+                return $lastSubscription;
+            }
+        }
+
+        return null;
     }
 
     //    /**

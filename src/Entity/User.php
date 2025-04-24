@@ -106,6 +106,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->transactions = new ArrayCollection();
         $this->bookmarks = new ArrayCollection();
         $this->notifications = new ArrayCollection();
+        $this->approvedUsers = new ArrayCollection();
+        $this->rejectedUsers = new ArrayCollection();
     }
 
     public function getId(): ?int

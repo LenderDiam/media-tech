@@ -29,11 +29,6 @@
             <td>{{ membership.document }}</td>
             <td>{{ membership.user.email }}</td>
             <td>
-              {# {% if membership.state == 1 %}
-                <span class="badge bg-warning">En attente</span>
-              {% elseif membership.state == 2 %}
-                <span class="badge bg-success">Approuvé</span>
-              {% elseif membership.state == 3 %} #}
               <span class="badge 
                   {% if membership.state.label() == 'en attente' %}
                       bg-warning
@@ -59,7 +54,7 @@
           </tr>
         {% else %}
           <tr>
-            <td colspan="5">no records found</td>
+            <td colspan="5">aucune demande d'adhésion</td>
           </tr>
         {% endfor %}
       </tbody>

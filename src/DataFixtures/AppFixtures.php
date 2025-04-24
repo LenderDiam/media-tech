@@ -43,20 +43,6 @@ class AppFixtures extends Fixture
         $faker = Factory::create('fr_FR');
 
         $users = [];
-        for ($i = 0; $i < 9; $i++) {
-            $user = new User();
-
-            $user
-                ->setFirstname($faker->firstName)
-                ->setLastname($faker->lastName)
-                ->setEmail($faker->unique()->safeEmail)
-                ->setPassword(password_hash('password', PASSWORD_BCRYPT))
-                ->setRoles(['ROLE_USER'])
-            ;
-
-            $manager->persist($user);
-            $users[] = $user;
-        }
 
         $admin = new User();
 
@@ -70,6 +56,35 @@ class AppFixtures extends Fixture
 
         $manager->persist($admin);
         $users[] = $admin;
+
+        for ($i = 0; $i < 9; $i++) {
+            $user = new User();
+
+            $user
+                ->setFirstname($faker->firstName)
+                ->setLastname($faker->lastName)
+                ->setEmail($faker->unique()->safeEmail)
+                ->setPassword(password_hash('password', PASSWORD_BCRYPT))
+                ->setRoles(['ROLE_USER'])
+            ;
+
+            $randomValue = $faker->numberBetween(1, 100); 
+
+            if ($randomValue <= 30) { 
+                $user->setApprovedAt($faker->dateTimeImmutable());
+                $user->setApprovedBy($admin);
+                $admin->addApprovedUser($user);
+            } elseif ($randomValue > 30 && $randomValue <= 60) { 
+                $user->setRejectedAt($faker->dateTimeImmutable());
+                $user->setRejectedBy($admin);
+                $admin->addRejectedUser($user);
+            } else {
+            }
+
+            $manager->persist($user);
+            $users[] = $user;
+        }
+
         $manager->flush();
 
         $subscriptions = [];

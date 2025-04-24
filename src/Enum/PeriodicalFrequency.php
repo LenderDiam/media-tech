@@ -10,4 +10,16 @@ enum PeriodicalFrequency: int
     case Monthly = 3;
     case Yearly = 4;
     case Other = 5;
+
+    public function label(): string
+    {
+        return match($this) {
+            self::Undefined => 'non défini',
+            self::Daily => 'quotidien',
+            self::Weekly => 'hebdomadaire',
+            self::Monthly => 'mensuel',
+            self::Yearly => 'annuel',
+            self::Other => 'autre',
+        };
+    }
 }

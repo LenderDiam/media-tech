@@ -42,7 +42,16 @@
             icon: '',
             check_path: 'app_infos',
           ) }}
-        </ul>
+
+          {% if is_granted('ROLE_ADMIN') %}
+            {{ navigation.nav_item(
+              label: 'Administration',
+              path: path('app_admin'),
+              icon: '',
+              check_path: 'app_admin',
+            ) }}
+          {% endif %}
+        </ul>   
 
         {# ----- Espace utilisateur ----- #}
         {% if is_granted('ROLE_USER') %}

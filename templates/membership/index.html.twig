@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Adhésion
+{% endblock %}
+
+{% block body %}
+  <div class="container my-5">
+    <div class="row align-items-end align-middle gap-2 mb-3">
+      <div class="col-auto me-auto">
+        <h2 class="h4">Liste des mes demandes d'adhésion</h2>
+      </div>
+
+      <div class="col-auto">
+        {% set add = false %}
+        {% for membership in memberships %}
+          {% if membership.state.label() == 'rejeté' %}
+            {% set add = true %}
+          {% endif %}
+        {% endfor %}
+
+        {% if add == true %}
+          <a href="{{ path('app_membership_new') }}" class="btn btn-primary">Ajouter</a>
+        {% else %}
+          <a href="#" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-title="Vous ne pouvez pas faire de nouvelle demande.">Ajouter</a>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="table-responsive border rounded">
+      <table class="table table-striped mb-0 align-middle">
+        <thead class="table-bordered">
+          <tr>
+            <th>Document</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for membership in memberships %}
+            <tr>
+              <td>{{ membership.document }}</td>
+              <td>{{ membership.createdAt ? membership.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+              <td>
+                <span class="badge 
+                    {% if membership.state.label() == 'en attente' %}
+                        bg-warning
+                    {% elseif membership.state.label() == 'rejeté' %}
+                        bg-danger
+                    {% elseif membership.state.label() == 'approuvé' %}
+                        bg-success
+                    {% else %}
+                        bg-secondary
+                    {% endif %}
+                ">
+                  {{ membership.state.label() }}
+                </span>
+              </td>
+              <td>
+                {% if membership.state.label() == 'en attente' %}
+                  <div class="d-flex align-items-center gap-2">
+                    <a href="{{ path('app_membership_edit', { id: membership.id }) }}" class="btn btn-secondary">Modifier</a>
+                    {% include 'membership/_delete_form.html.twig' %}
+                  </div>
+                {% else %}
+                  Votre demande a déjà étais traité. Elle n'est plus modifiable.
+                {% endif %}
+              </td>
+            </tr>
+          {% else %}
+            <tr>
+              <td colspan="4">aucune demande d'adhésion</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <script>
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [...tooltipTriggerList].map((tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl))
+  </script>
+{% endblock %}

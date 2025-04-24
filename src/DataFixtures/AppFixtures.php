@@ -68,15 +68,19 @@ class AppFixtures extends Fixture
                 ->setRoles(['ROLE_USER'])
             ;
 
-            $randomValue = $faker->numberBetween(1, 100); 
+            $randomValue = $faker->numberBetween(1, 100);
 
-            if ($randomValue <= 30) { 
-                $user->setApprovedAt($faker->dateTimeImmutable());
-                $user->setApprovedBy($admin);
+            if ($randomValue <= 30) {
+                $user
+                    ->setApprovedAt(DateTimeImmutable::createFromMutable($faker->dateTimeBetween('-1 year', 'now')))
+                    ->setApprovedBy($admin)
+                ;
                 $admin->addApprovedUser($user);
-            } elseif ($randomValue > 30 && $randomValue <= 60) { 
-                $user->setRejectedAt($faker->dateTimeImmutable());
-                $user->setRejectedBy($admin);
+            } elseif ($randomValue > 30 && $randomValue <= 60) {
+                $user
+                    ->setRejectedAt(DateTimeImmutable::createFromMutable($faker->dateTimeBetween('-1 year', 'now')))
+                    ->setRejectedBy($admin)
+                ;
                 $admin->addRejectedUser($user);
             } else {
             }
@@ -183,7 +187,9 @@ class AppFixtures extends Fixture
                 ->setTitle($faker->sentence(3))
                 ->setLangage($faker->randomElement(['fr', 'en']))
                 ->setThumbnailUrl($faker->imageUrl())
-                ->setPublicationDate($faker->dateTimeBetween('-10 years', 'now'))
+                ->setPublicationDate(
+                    \DateTime::createFromFormat('Y-m-d', $faker->date('Y-m-d', $faker->dateTimeBetween('-10 years', 'now')))
+                )
             ;
 
             $manager->persist($doc);

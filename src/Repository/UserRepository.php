@@ -50,20 +50,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->getOneOrNullResult();
     }
 
-    public function findLatestTransactionForUser(User $user): ?\App\Entity\Transaction
-    {
-        return $this->getEntityManager()
-            ->createQuery(
-                'SELECT t
-             FROM App\Entity\Transaction t
-             WHERE t.user = :user
-             ORDER BY t.createdAt DESC'
-            )
-            ->setParameter('user', $user)
-            ->setMaxResults(1)
-            ->getOneOrNullResult();
-    }
-
     public function findCurrentSubscriptionForUser(User $user): ?Subscription
     {
         $lastTransaction = $this->findLatestTransactionForUser($user);
@@ -76,21 +62,14 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             return null;
         }
 
-        $validityMap = [
-            SubscriptionPeriodicity::Monthly->value => '-1 month',
-            SubscriptionPeriodicity::Yearly->value => '-1 year',
-        ];
-
-        $periodicity = $lastSubscription->getPeriodicity();
-        if ($periodicity instanceof \App\Enum\SubscriptionPeriodicity) {
-            $periodicity = $periodicity->value;
+        $lastTransaction = $this->transactionRepository->findLatestTransactionForUser($user);
+        if (!$lastTransaction || $lastTransaction->getSubscription() !== $lastSubscription) {
+            return null;
         }
 
-        if (isset($validityMap[$periodicity])) {
-            $validityDate = (new \DateTimeImmutable())->modify($validityMap[$periodicity]);
-            if ($lastTransaction->getCreatedAt() > $validityDate) {
-                return $lastSubscription;
-            }
+        $expirationDate = $this->transactionRepository->getSubscriptionExpirationDateFromTransaction($lastTransaction);
+        if ($expirationDate && new \DateTimeImmutable() <= $expirationDate) {
+            return $lastSubscription;
         }
 
         return null;

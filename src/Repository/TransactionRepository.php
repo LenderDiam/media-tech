@@ -2,8 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\Subscription;
 use App\Entity\Transaction;
 use App\Entity\User;
+use App\Enum\SubscriptionPeriodicity;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -29,6 +31,18 @@ class TransactionRepository extends ServiceEntityRepository
             ->setParameter('user', $user)
             ->setMaxResults(1)
             ->getOneOrNullResult();
+    }
+
+    public function getSubscriptionExpirationDateFromTransaction(Transaction $transaction): \DateTimeImmutable
+    {
+        $validityMap = [
+            SubscriptionPeriodicity::Monthly->value => '+1 month',
+            SubscriptionPeriodicity::Yearly->value => '+1 year',
+        ];
+
+        $periodicity = $transaction->getSubscription()->getPeriodicity()->value;
+
+        return $transaction->getCreatedAt()->modify($validityMap[$periodicity]);
     }
 
     //    /**

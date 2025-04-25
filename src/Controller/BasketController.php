@@ -129,7 +129,7 @@ final class BasketController extends AbstractController
         $basket->setState(BasketState::Validated);
         $entityManager->flush();
 
-        $this->addFlash('success', 'Votre panier a été validé et les copies ont été empruntées.');
+        $this->addFlash('success', 'Votre panier a été validé et les exemplaire ont été réservé vous avez 7 jours pour les récupérés.');
         return $this->redirectToRoute('app_basket');
     }
 }

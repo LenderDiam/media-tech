@@ -302,10 +302,7 @@ class AppFixtures extends Fixture
 
             $basket
                 ->setCreatedAt(DateTimeImmutable::createFromMutable($faker->dateTimeBetween('-1 year', 'now')))
-                ->setState($faker->randomElement([
-                    BasketState::Pending,
-                    BasketState::Validated,
-                ]))
+                ->setState(BasketState::Pending)
                 ->setUser($user)
             ;
 

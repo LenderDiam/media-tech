@@ -187,7 +187,7 @@ class AppFixtures extends Fixture
             $doc
                 ->setTitle($faker->sentence(3))
                 ->setLangage($faker->randomElement(['fr', 'en']))
-                ->setThumbnailUrl($faker->imageUrl())
+                ->setThumbnailUrl('https://www.fffuel.co/images/dddepth/dddepth-' . $faker->numberBetween(101, 160) . '.jpg')
                 ->setPublicationDate(
                     \DateTime::createFromFormat('Y-m-d', $faker->date('Y-m-d', $faker->dateTimeBetween('-10 years', 'now')))
                 )

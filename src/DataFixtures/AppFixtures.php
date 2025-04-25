@@ -283,9 +283,14 @@ class AppFixtures extends Fixture
                         CopyPhysicalCondition::Worn,
                         CopyPhysicalCondition::Damaged,
                     ]))
-                    ->setLoan($faker->optional()->randomElement($loans))
                 ;
+
                 $manager->persist($copy);
+
+                for ($i = 0; $i < rand(1, 3); $i++) {
+                    $copy->addLoan($faker->randomElement($loans));
+                }
+                
                 $copies[] = $copy;
             }
         }

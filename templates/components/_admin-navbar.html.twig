@@ -44,6 +44,13 @@
     </li>
 
     {{ navigation.nav_item(
+      label: 'Exemplaires',
+      path: path('app_admin_copy_index'),
+      icon: '',
+      check_path: 'app_admin_copy',
+    ) }}
+
+    {{ navigation.nav_item(
       label: 'Auteurs',
       path: path('app_admin_author_index'),
       icon: '',
@@ -55,6 +62,13 @@
       path: path('app_admin_publisher_index'),
       icon: '',
       check_path: 'app_admin_publisher',
+    ) }}
+
+    {{ navigation.nav_item(
+      label: 'Adhésions',
+      path: path('app_admin_membership_index'),
+      icon: '',
+      check_path: 'app_admin_membership',
     ) }}
 
     {{ navigation.nav_item(

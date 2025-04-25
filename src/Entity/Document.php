@@ -231,4 +231,20 @@ class Document
 
         return $this;
     }
+
+    public function getType(): string
+    {
+        return (new \ReflectionClass($this))->getShortName();
+    }
+
+    public function getTypeLabel(): string
+    {
+        return match ((new \ReflectionClass($this))->getShortName()) {
+            'Book' => 'Livre',
+            'Video' => 'Vidéo',
+            'Audio' => 'Audio',
+            'Periodical' => 'Périodique',
+            default => 'Document'
+        };
+    }
 }

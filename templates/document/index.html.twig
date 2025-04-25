@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Documents
+{% endblock %}
+
+{% block body %}
+  <div class="container mt-4">
+    <h1 class="mb-4 text-center">Catalogue</h1>
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 my-5">
+      {% for document in documents %}
+        <div class="col">
+          <div class="card h-100 shadow-sm">
+            <img src="{{ document.thumbnailUrl }}" class="card-img-top" alt="{{ document.title }}" style="object-fit: cover; height: 200px;" />
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title">{{ document.title }}</h5>
+              <p class="card-text mb-1">
+                <strong>Type :</strong>
+                  {{ document.typeLabel }}
+              </p>
+              <p class="card-text mb-1">
+                <strong>Langage :</strong> {{ document.langage }}
+              </p>
+              <p class="card-text text-muted">
+                <small>Publié le {{ document.publicationDate ? document.publicationDate|date('d/m/Y') : 'Non daté' }}</small>
+              </p>
+              <div class="mt-auto">
+                <a href="{{ path('app_document_show', { id: document.id }) }}" class="btn btn-primary w-100">Voir détails</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% else %}
+        <div class="col">
+          <div class="alert alert-info w-100">Aucun document trouvé.</div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

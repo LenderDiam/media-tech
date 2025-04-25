@@ -1,0 +1,82 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title_admin %}
+  Exemplaire
+{% endblock %}
+
+{% block admin_content %}
+  <div class="row align-items-end gap-2 mb-3">
+    <div class="col-auto me-auto">
+      <h2 class="h4 mb-0">Liste des exemplaire</h2>
+    </div>
+
+    <div class="col-auto">
+      <a href="{{ path('app_admin_copy_new') }}" class="btn btn-primary">Ajouter</a>
+    </div>
+  </div>
+
+  <div class="table-responsive border rounded">
+    <table class="table table-striped mb-0 align-middle">
+      <thead class="table-bordered">
+        <tr>
+          <th>Id</th>
+          <th>Titre</th>
+          <th>Status</th>
+          <th>État physique</th>
+          <th>Emprunt actuelle</th>
+          <th>actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for copy in copies %}
+          <tr>
+            <td>{{ copy.id }}</td>
+            <td>{{ copy.document.title }}</td>
+            <td>
+              <span class="badge 
+                  {% if copy.state.label() == 'disponible' %}
+                      bg-success
+                  {% elseif copy.state.label() == 'réservé' %}
+                      bg-primary
+                  {% elseif copy.state.label() == 'emprunté' %}
+                      bg-secondary
+                  {% else %}
+                      bg-danger
+                  {% endif %}
+              ">
+                {{ copy.state.label() }}
+              </span>
+            <td>
+              <span class="badge 
+                  {% if copy.physicalCondition.label() == 'neuf' %}
+                      bg-success
+                  {% elseif copy.physicalCondition.label() == 'bon état' %}
+                      bg-primary
+                  {% elseif copy.physicalCondition.label() == 'usé' %}
+                      bg-secondary
+                  {% else %}
+                      bg-danger
+                  {% endif %}
+              ">
+                {{ copy.physicalCondition.label() }}
+              </span>
+            <td>
+              {{ copy.loan is not null ? copy.loan.user.email : 'Aucun' }}
+            </td>
+            <td>
+              <div class="d-flex align-items-center gap-2">
+                <a href="{{ path('app_admin_copy_show', { id: copy.id }) }}" class="btn btn-secondary">Afficher</a>
+                <a href="{{ path('app_admin_copy_edit', { id: copy.id }) }}" class="btn btn-secondary">Modifier</a>
+                {% include 'admin/copy/_delete_form.html.twig' %}
+              </div>
+            </td>
+          </tr>
+        {% else %}
+          <tr>
+            <td colspan="6">aucun exemplaire trouvé</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

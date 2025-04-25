@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Mon Panier
+{% endblock %}
+
+{% block body %}
+  <div class="container my-5">
+    <h1 class="mb-4">Mon Panier</h1>
+
+    {% for label, messages in app.flashes %}
+      <div class="alert alert-{{ label }} text-center">
+        {% for message in messages %}
+          <p class="mb-0">{{ message }}</p>
+        {% endfor %}
+      </div>
+    {% endfor %}
+
+    {% if basket and (basket.copies|length) > 0 %}
+      <ul class="list-group mb-4">
+        {% for copy in basket.copies %}
+          <li class="list-group-item d-flex align-items-center gap-3">
+
+            <div class="card shadow-sm border-0" style="width: 100px;">
+              <img src="{{ copy.document.thumbnailUrl }}" alt="Image de {{ copy.document.title }}" class="card-img-top rounded" />
+            </div>
+
+            <div class="flex-grow-1">
+              <strong>Document :</strong> {{ copy.document.title }}
+            </div>
+
+            <form action="{{ path('app_basket_remove', { id: copy.id }) }}" method="post" class="mb-0">
+              <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i> Retirer</button>
+            </form>
+          </li>
+        {% endfor %}
+      </ul>
+
+      <form action="{{ path('app_basket_validate') }}" method="post">
+        <button type="submit" class="btn btn-primary"><i class="bi bi-check-circle"></i> Valider le panier</button>
+      </form>
+    {% else %}
+      <p class="text-muted">Votre panier est vide.</p>
+    {% endif %}
+  </div>
+{% endblock %}

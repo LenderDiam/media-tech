@@ -7,14 +7,12 @@
 {% block body %}
   <div class="container my-5">
     <div class="row g-4 align-items-center">
-      <!-- Image Section -->
       <div class="col-md-4">
         <div class="card shadow-sm border-0">
           <img src="{{ document.thumbnailUrl }}" alt="Image de {{ document.title }}" class="card-img-top rounded-top" />
         </div>
       </div>
 
-      <!-- Details Section -->
       <div class="col-md-8">
         <div class="card shadow-sm border-0">
           <div class="card-body">
@@ -64,9 +62,22 @@
                 {% endif %}
               </ul>
             </div>
-
+            <div class="row mb-4">
+              <p class="fw-bold mb-0 col-auto">Nombre d'exemplaires disponibles :</p>
+              <span class="col-auto p-0">{{ nbCopies }}</span>
+            </div>
+            {% for label, messages in app.flashes %}
+              <div class="alert alert-{{ label }} text-center">
+                {% for message in messages %}
+                  <p class="mb-0">{{ message }}</p>
+                {% endfor %}
+              </div>
+            {% endfor %}
             <div class="d-flex gap-2 justify-content-between">
               <a href="{{ path('app_document_index') }}" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Retour à la liste</a>
+              <form method="post" action="{{ path('app_basket_add', { id: document.id }) }}">
+                <button type="submit" class="btn btn-primary">Ajouter au Panier</button>
+              </form>
             </div>
           </div>
         </div>

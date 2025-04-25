@@ -34,3 +34,26 @@
         $this->addFlash('success', 'Exemplaire ajouté au panier.');
         return $this->redirectToRoute('app_document_show', ['id' => $document->getId()]);
     }
+
+    #[Route('/remove/{id}', name: 'app_basket_remove', methods: ['POST'])]
+    public function remove(
+        Copy $copy,
+        #[CurrentUser()] User $user,
+        EntityManagerInterface $entityManager,
+    ): RedirectResponse
+    {
+        $basket = $entityManager->getRepository(Basket::class)->findOneBy(['user' => $user, 'state' => BasketState::Pending]);
+
+        if (!$basket || !$basket->getCopies()->contains($copy)) {
+            $this->addFlash('warning', 'Cette copie n\'est pas dans votre panier.');
+            return $this->redirectToRoute('app_basket');
+        }
+
+        $basket->removeCopy($copy);
+        $entityManager->persist($basket);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Exemplaire retirée du panier.');
+        return $this->redirectToRoute('app_basket');
+    }
+

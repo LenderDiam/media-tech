@@ -1,0 +1,74 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title_admin %}
+  Exemplaire
+{% endblock %}
+
+{% block admin_content %}
+  <h1 class="mb-3">Exemplaire n°{{ copy.id }}</h1>
+
+  <div class="table-responsive border rounded">
+    <table class="table table-striped mb-0 align-middle">
+      <tbody>
+        <tr>
+            <th>Titre</th>
+            <td>{{ copy.document.title }}</td>
+        </tr>
+        <tr>
+            <th>Status</th>
+            <td>
+              <span class="badge 
+                  {% if copy.state.label() == 'disponible' %}
+                      bg-success
+                  {% elseif copy.state.label() == 'réservé' %}
+                      bg-primary
+                  {% elseif copy.state.label() == 'emprunté' %}
+                      bg-secondary
+                  {% else %}
+                      bg-danger
+                  {% endif %}
+              ">
+                {{ copy.state.label() }}
+              </span>
+            </td>
+        </tr>
+        <tr>
+          <th>État physique</th>
+            <td>
+              <span class="badge 
+                  {% if copy.physicalCondition.label() == 'neuf' %}
+                      bg-success
+                  {% elseif copy.physicalCondition.label() == 'bon état' %}
+                      bg-primary
+                  {% elseif copy.physicalCondition.label() == 'usé' %}
+                      bg-secondary
+                  {% else %}
+                      bg-danger
+                  {% endif %}
+              ">
+                {{ copy.physicalCondition.label() }}
+              </span>
+            </td>
+        </tr>
+        <tr>
+            <th>Emprunt actuelle</th>
+            <td>
+              {{ copy.loan is not null ? copy.loan.user.email : 'Aucun' }}
+            </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="mt-3 d-flex gap-2">
+    <a href="{{ path('app_admin_copy_index') }}" class="btn btn-secondary">
+        Retour à la liste
+    </a>
+
+    <a href="{{ path('app_admin_copy_edit', { id: copy.id }) }}" class="btn btn-primary">
+      Modifier
+    </a>
+
+    {{ include('admin/copy/_delete_form.html.twig') }}
+  </div>
+{% endblock %}

@@ -300,7 +300,6 @@ class AppFixtures extends Fixture
                 ->setState($faker->randomElement([
                     BasketState::Pending,
                     BasketState::Validated,
-                    BasketState::Cancelled,
                 ]))
                 ->setUser($user)
             ;

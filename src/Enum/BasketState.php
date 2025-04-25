@@ -6,14 +6,12 @@ enum BasketState: int
 {
     case Pending = 1;
     case Validated = 2;
-    case Cancelled = 3;
 
     public function label(): string
     {
         return match($this) {
             self::Pending => 'en attente',
             self::Validated => 'validé',
-            self::Cancelled => 'annulé',
         };
     }
 }

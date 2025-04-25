@@ -35,12 +35,16 @@ class Copy
     #[ORM\ManyToMany(targetEntity: Basket::class, inversedBy: 'copies')]
     private Collection $baskets;
 
-    #[ORM\ManyToOne(inversedBy: 'copies')]
-    private ?Loan $loan = null;
+    /**
+     * @var Collection<int, Loan>
+     */
+    #[ORM\ManyToMany(targetEntity: Loan::class, inversedBy: 'copies')]
+    private Collection $loans;
 
     public function __construct()
     {
         $this->baskets = new ArrayCollection();
+        $this->loans = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -108,14 +112,26 @@ class Copy
         return $this;
     }
 
-    public function getLoan(): ?Loan
+    /**
+     * @return Collection<int, Loan>
+     */
+    public function getLoans(): Collection
     {
-        return $this->loan;
+        return $this->loans;
     }
 
-    public function setLoan(?Loan $loan): static
+    public function addLoan(Loan $loan): static
     {
-        $this->loan = $loan;
+        if (!$this->loans->contains($loan)) {
+            $this->loans->add($loan);
+        }
+
+        return $this;
+    }
+
+    public function removeLoan(Loan $loan): static
+    {
+        $this->loans->removeElement($loan);
 
         return $this;
     }

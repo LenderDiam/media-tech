@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Copy;
 use App\Entity\Document;
+use App\Enum\CopyState;
 use App\Form\Document1Type;
 use App\Repository\DocumentRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,10 +25,13 @@ final class DocumentController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_document_show', methods: ['GET'])]
-    public function show(Document $document): Response
+    public function show(Document $document, EntityManagerInterface $entityManager): Response
     {
+        $copies = $entityManager->getRepository(Copy::class)->findBy(['document' => $document, 'state' => CopyState::Available]);
+
         return $this->render('document/show.html.twig', [
             'document' => $document,
+            'nbCopies' => count($copies),
         ]);
     }
 }

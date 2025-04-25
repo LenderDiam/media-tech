@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250424154337 extends AbstractMigration
+final class Version20250425180229 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -36,10 +36,13 @@ final class Version20250424154337 extends AbstractMigration
             CREATE TABLE book (isbn VARCHAR(20) NOT NULL, pages INT DEFAULT NULL, id INT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE copy (id INT AUTO_INCREMENT NOT NULL, state INT DEFAULT 1 NOT NULL, physical_condition INT DEFAULT 1 NOT NULL, document_id INT DEFAULT NULL, loan_id INT DEFAULT NULL, INDEX IDX_4DBABB82C33F7837 (document_id), INDEX IDX_4DBABB82CE73868F (loan_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
+            CREATE TABLE copy (id INT AUTO_INCREMENT NOT NULL, state INT DEFAULT 1 NOT NULL, physical_condition INT DEFAULT 1 NOT NULL, document_id INT DEFAULT NULL, INDEX IDX_4DBABB82C33F7837 (document_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
         SQL);
         $this->addSql(<<<'SQL'
             CREATE TABLE copy_basket (copy_id INT NOT NULL, basket_id INT NOT NULL, INDEX IDX_87F83FC0A8752772 (copy_id), INDEX IDX_87F83FC01BE1FB52 (basket_id), PRIMARY KEY(copy_id, basket_id)) DEFAULT CHARACTER SET utf8mb4
+        SQL);
+        $this->addSql(<<<'SQL'
+            CREATE TABLE copy_loan (copy_id INT NOT NULL, loan_id INT NOT NULL, INDEX IDX_14BD1DFFA8752772 (copy_id), INDEX IDX_14BD1DFFCE73868F (loan_id), PRIMARY KEY(copy_id, loan_id)) DEFAULT CHARACTER SET utf8mb4
         SQL);
         $this->addSql(<<<'SQL'
             CREATE TABLE document (id INT AUTO_INCREMENT NOT NULL, title VARCHAR(255) NOT NULL, langage VARCHAR(255) NOT NULL, thumbnail_url LONGTEXT NOT NULL, publication_date DATE DEFAULT NULL, type VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4
@@ -102,13 +105,16 @@ final class Version20250424154337 extends AbstractMigration
             ALTER TABLE copy ADD CONSTRAINT FK_4DBABB82C33F7837 FOREIGN KEY (document_id) REFERENCES document (id)
         SQL);
         $this->addSql(<<<'SQL'
-            ALTER TABLE copy ADD CONSTRAINT FK_4DBABB82CE73868F FOREIGN KEY (loan_id) REFERENCES loan (id)
-        SQL);
-        $this->addSql(<<<'SQL'
             ALTER TABLE copy_basket ADD CONSTRAINT FK_87F83FC0A8752772 FOREIGN KEY (copy_id) REFERENCES copy (id) ON DELETE CASCADE
         SQL);
         $this->addSql(<<<'SQL'
             ALTER TABLE copy_basket ADD CONSTRAINT FK_87F83FC01BE1FB52 FOREIGN KEY (basket_id) REFERENCES basket (id) ON DELETE CASCADE
+        SQL);
+        $this->addSql(<<<'SQL'
+            ALTER TABLE copy_loan ADD CONSTRAINT FK_14BD1DFFA8752772 FOREIGN KEY (copy_id) REFERENCES copy (id) ON DELETE CASCADE
+        SQL);
+        $this->addSql(<<<'SQL'
+            ALTER TABLE copy_loan ADD CONSTRAINT FK_14BD1DFFCE73868F FOREIGN KEY (loan_id) REFERENCES loan (id) ON DELETE CASCADE
         SQL);
         $this->addSql(<<<'SQL'
             ALTER TABLE document_user ADD CONSTRAINT FK_2A275ADAC33F7837 FOREIGN KEY (document_id) REFERENCES document (id) ON DELETE CASCADE
@@ -176,13 +182,16 @@ final class Version20250424154337 extends AbstractMigration
             ALTER TABLE copy DROP FOREIGN KEY FK_4DBABB82C33F7837
         SQL);
         $this->addSql(<<<'SQL'
-            ALTER TABLE copy DROP FOREIGN KEY FK_4DBABB82CE73868F
-        SQL);
-        $this->addSql(<<<'SQL'
             ALTER TABLE copy_basket DROP FOREIGN KEY FK_87F83FC0A8752772
         SQL);
         $this->addSql(<<<'SQL'
             ALTER TABLE copy_basket DROP FOREIGN KEY FK_87F83FC01BE1FB52
+        SQL);
+        $this->addSql(<<<'SQL'
+            ALTER TABLE copy_loan DROP FOREIGN KEY FK_14BD1DFFA8752772
+        SQL);
+        $this->addSql(<<<'SQL'
+            ALTER TABLE copy_loan DROP FOREIGN KEY FK_14BD1DFFCE73868F
         SQL);
         $this->addSql(<<<'SQL'
             ALTER TABLE document_user DROP FOREIGN KEY FK_2A275ADAC33F7837
@@ -246,6 +255,9 @@ final class Version20250424154337 extends AbstractMigration
         SQL);
         $this->addSql(<<<'SQL'
             DROP TABLE copy_basket
+        SQL);
+        $this->addSql(<<<'SQL'
+            DROP TABLE copy_loan
         SQL);
         $this->addSql(<<<'SQL'
             DROP TABLE document

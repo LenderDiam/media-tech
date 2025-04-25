@@ -30,7 +30,7 @@ class Loan
     /**
      * @var Collection<int, Copy>
      */
-    #[ORM\OneToMany(targetEntity: Copy::class, mappedBy: 'loan')]
+    #[ORM\ManyToMany(targetEntity: Copy::class, mappedBy: 'loans')]
     private Collection $copies;
 
     public function __construct()
@@ -103,7 +103,7 @@ class Loan
     {
         if (!$this->copies->contains($copy)) {
             $this->copies->add($copy);
-            $copy->setLoan($this);
+            $copy->addLoan($this);
         }
 
         return $this;
@@ -112,10 +112,7 @@ class Loan
     public function removeCopy(Copy $copy): static
     {
         if ($this->copies->removeElement($copy)) {
-            // set the owning side to null (unless already changed)
-            if ($copy->getLoan() === $this) {
-                $copy->setLoan(null);
-            }
+            $copy->removeLoan($this);
         }
 
         return $this;

@@ -283,9 +283,14 @@ class AppFixtures extends Fixture
                         CopyPhysicalCondition::Worn,
                         CopyPhysicalCondition::Damaged,
                     ]))
-                    ->setLoan($faker->optional()->randomElement($loans))
                 ;
+
                 $manager->persist($copy);
+
+                for ($i = 0; $i < rand(1, 3); $i++) {
+                    $copy->addLoan($faker->randomElement($loans));
+                }
+                
                 $copies[] = $copy;
             }
         }
@@ -297,11 +302,7 @@ class AppFixtures extends Fixture
 
             $basket
                 ->setCreatedAt(DateTimeImmutable::createFromMutable($faker->dateTimeBetween('-1 year', 'now')))
-                ->setState($faker->randomElement([
-                    BasketState::Pending,
-                    BasketState::Validated,
-                    BasketState::Cancelled,
-                ]))
+                ->setState(BasketState::Pending)
                 ->setUser($user)
             ;
 

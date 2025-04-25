@@ -1,3 +1,35 @@
+<?php
+
+namespace App\Controller;
+
+use App\Entity\Basket;
+use App\Entity\Copy;
+use App\Entity\Document;
+use App\Entity\Loan;
+use App\Entity\User;
+use App\Enum\BasketState;
+use App\Enum\CopyState;
+use App\Service\BasketManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\CurrentUser;
+
+#[Route('/basket')]
+final class BasketController extends AbstractController
+{
+    #[Route(name: 'app_basket')]
+    public function index(EntityManagerInterface $entityManager, #[CurrentUser()] User $user): Response
+    {
+        $basket = $entityManager->getRepository(Basket::class)->findOneBy(['user' => $user, 'state' => BasketState::Pending]);
+
+        return $this->render('basket/index.html.twig', [
+            'basket' => $basket,
+        ]);
+    }
+
     #[Route('/add/{id}', name: 'app_basket_add', methods: ['POST'])]
     public function add(
         Document $document,
@@ -57,3 +89,47 @@
         return $this->redirectToRoute('app_basket');
     }
 
+    #[Route('/validate', name: 'app_basket_validate', methods: ['POST'])]
+    public function validate(
+        #[CurrentUser()] User $user,
+        EntityManagerInterface $entityManager,
+    ): RedirectResponse
+    {
+        $basket = $entityManager->getRepository(Basket::class)->findOneBy(['user' => $user, 'state' => BasketState::Pending]);
+
+        if (!$basket || $basket->getCopies()->isEmpty()) {
+            $this->addFlash('danger', 'Votre panier est vide. Impossible de valider.');
+            return $this->redirectToRoute('app_basket');
+        }
+
+        foreach ($basket->getCopies() as $copy) {
+            if ($copy->getState() !== CopyState::Available) {
+                $this->addFlash('danger', sprintf(
+                    'Le document "%s" n\'est plus disponible.',
+                    $copy->getDocument()->getTitle()
+                ));
+                return $this->redirectToRoute('app_basket');
+            }
+        }
+
+        $loan = new Loan();
+        $loan
+            ->setUser($user)
+            ->setStartAt(new \DateTimeImmutable())
+        ;
+        $entityManager->persist($loan);
+
+        // Associer les copies au prêt et changer leur état
+        foreach ($basket->getCopies() as $copy) {
+            $loan->addCopy($copy);
+            $copy->setState(CopyState::Reserved);
+        }
+
+        // Marquer le panier comme validé
+        $basket->setState(BasketState::Validated);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Votre panier a été validé et les copies ont été empruntées.');
+        return $this->redirectToRoute('app_basket');
+    }
+}

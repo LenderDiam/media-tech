@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Subscription;
 use App\Entity\User;
-use App\Enum\SubscriptionPeriodicity;
+use App\Repository\TransactionRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -16,9 +16,12 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
  */
 class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
-    public function __construct(ManagerRegistry $registry)
+    private TransactionRepository $transactionRepository;
+
+    public function __construct(ManagerRegistry $registry, TransactionRepository $transactionRepository)
     {
         parent::__construct($registry, User::class);
+        $this->transactionRepository = $transactionRepository;
     }
 
     /**
@@ -52,11 +55,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
     public function findCurrentSubscriptionForUser(User $user): ?Subscription
     {
-        $lastTransaction = $this->findLatestTransactionForUser($user);
-        if (!$lastTransaction) {
-            return null;
-        }
-
         $lastSubscription = $this->findLatestSubscriptionForUser($user);
         if (!$lastSubscription) {
             return null;

@@ -2,7 +2,7 @@
 {% import "macros/navigation.html.twig" as navigation %}
 
 <header class="sticky-top">
-  <nav class="navbar navbar-expand-lg bg-body border-bottom shadow-sm" id="main-navbar">
+  <nav class="navbar navbar-expand-lg nav-underline bg-body border-bottom shadow-sm" id="main-navbar">
     <div class="container">
       {# ----- Logo Médiathèque ----- #}
       <a class="navbar-brand me-5" href="#" aria-label="Accueil">
@@ -33,16 +33,16 @@
           {% if is_granted('ROLE_USER') %}
             {{ navigation.nav_item(
               label: 'Catalogue',
-              path: '#',
+              path: path('app_document_index'),
               icon: '',
-              check_path: 'app_catalogue',
+              check_path: 'app_document',
             ) }}
 
             {{ navigation.nav_item(
               label: 'Abonnement',
               path: path('app_subscription_index'),
               icon: '',
-              check_path: 'app_abonnement',
+              check_path: 'app_subscription',
             ) }}
           {% endif %}
 

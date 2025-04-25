@@ -1,0 +1,15 @@
+{{ form_start(form) }}
+<div class="row">
+  <div class="col-md-6">{{ form_row(form.state) }}</div>
+
+  <div class="col-md-6">{{ form_row(form.physicalCondition) }}</div>
+</div>
+
+{{ form_row(form.document) }}
+{{ form_row(form.baskets) }}
+{{ form_row(form.loan) }}
+
+<div class="text-end">
+  <button type="submit" class="btn btn-primary">Enregistrer</button>
+</div>
+{{ form_end(form) }}

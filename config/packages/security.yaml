@@ -39,8 +39,8 @@ security:
         ROLE_ADMIN: ROLE_MEMBER
 
     access_control:
-        - { path: ^/(login|register|$|subscription), roles: PUBLIC_ACCESS }
-        - { path: ^/(user|logout|document|membership|basket|transaction), roles: ROLE_USER }
+        - { path: ^/(login|register|$), roles: PUBLIC_ACCESS }
+        - { path: ^/(user|logout|document|membership|basket|subscription), roles: ROLE_USER }
         - { path: ^/admin, roles: ROLE_ADMIN }
 
         - { path: ^/, roles: ROLE_MEMBER } # catch-all

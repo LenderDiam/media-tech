@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Liste des abonnements
+{% endblock %}
+
+{% block body %}
+  <div class="container mt-4">
+    <h1 class="mb-4">Abonnements</h1>
+
+    {% if hasReduction %}
+      <div class="alert alert-info text-center">
+        <strong>Promotion en cours !</strong><br />
+        Vous profiter de 30% de réduction sur votre abonnement grâce à votre adhésion.
+      </div>
+    {% endif %}
+
+    {% if amount is defined and amount %}
+      <div class="alert alert-success text-center">
+        Paiement effectué : <strong>{{ amount }} €</strong>
+      </div>
+    {% endif %}
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+      {% for subscription in subscriptions %}
+        <div class="col">
+          <div class="card h-100 shadow-sm">
+            <div class="card-body">
+              <h2 class="card-title text-center h3">{{ subscription.name }}</h2>
+
+              <p class="text-center mb-2 col" style="min-height: 3.0em;">
+                {% if currentSubscription and currentSubscription == subscription %}
+                  <span class="text-success fw-bold d-block">Actif</span>
+                  {% if expirationDate %}
+                    <span class="text-secondary fw-bold d-block">Expire le {{ expirationDate|date('Y-m-d H:i:s') }}</span>
+                  {% endif %}
+                {% endif %}
+              </p>
+
+              <p class="card-text">
+                {% if hasReduction %}
+                  <strong>Prix :</strong>
+                  <del>{{ subscription.price }} €</del>
+                  <span class="text-success fw-bold ms-2">{{ (subscription.price * 0.7)|number_format(2, '.', ' ') }} € (-30%)</span><br />
+                {% else %}
+                  <strong>Prix :</strong> {{ subscription.price }} €<br />
+                {% endif %}
+                <strong>Périodicité :</strong> {{ subscription.periodicity.label() }}
+              </p>
+            </div>
+            <div class="card-footer bg-transparent border-top-0 d-flex justify-content-between">
+              <form method="post" action="{{ path('app_subscription_payement', { id: subscription.id }) }}" onsubmit="return confirm('Voulez-vous procéder au paiment ?');">
+                <button type="submit" class="btn btn-primary">Payer</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      {% else %}
+        <div class="col">
+          <div class="alert alert-info w-100">Aucun abonnement trouvé.</div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

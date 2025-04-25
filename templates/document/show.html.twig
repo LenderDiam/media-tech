@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  {{ document.title }}
+{% endblock %}
+
+{% block body %}
+  <div class="container my-5">
+    <div class="row g-4 align-items-center">
+      <!-- Image Section -->
+      <div class="col-md-4">
+        <div class="card shadow-sm border-0">
+          <img src="{{ document.thumbnailUrl }}" alt="Image de {{ document.title }}" class="card-img-top rounded-top" />
+        </div>
+      </div>
+
+      <!-- Details Section -->
+      <div class="col-md-8">
+        <div class="card shadow-sm border-0">
+          <div class="card-body">
+            <h1 class="card-title mb-4 fw-bold text-center">{{ document.title }}</h1>
+
+            <ul class="list-group list-group-flush mb-4">
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <strong>Langue :</strong>
+                <span>{{ document.langage }}</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <strong>Type :</strong>
+                <span>{{ document.typeLabel }}</span>
+              </li>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <strong>Date de publication :</strong>
+                <span>{{ document.publicationDate ? document.publicationDate|date('d/m/Y') : 'Non renseignée' }}</span>
+              </li>
+            </ul>
+
+            <div class="mb-4">
+              <h5 class="text-secondary">Auteurs :</h5>
+              <ul class="list-unstyled">
+                {% if document.authors is empty %}
+                  <li class="text-muted">Aucun Auteur</li>
+                {% else %}
+                  {% for author in document.authors %}
+                    <li>{{ author.firstname }} {{ author.lastname }}</li>
+                  {% endfor %}
+                {% endif %}
+              </ul>
+            </div>
+
+            <div class="mb-4">
+              <h5 class="text-secondary">Éditeurs :</h5>
+              <ul class="list-unstyled">
+                {% if document.publishers is empty %}
+                  <li class="text-muted">Aucun éditeur</li>
+                {% else %}
+                  {% for publisher in document.publishers %}
+                    {% if publisher.firstname is empty %}
+                      <li>{{ publisher.name }}</li>
+                    {% else %}
+                      <li>{{ publisher.firstname }} {{ publisher.lastname }}</li>
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+              </ul>
+            </div>
+
+            <div class="d-flex gap-2 justify-content-between">
+              <a href="{{ path('app_document_index') }}" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Retour à la liste</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

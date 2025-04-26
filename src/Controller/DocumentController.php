@@ -46,6 +46,24 @@ final class DocumentController extends AbstractController
         return $this->redirectToRoute('app_document_show', ['id' => $document->getId()]);
     }
 
+    #[Route('/{id}/unbookmark', name: 'app_document_unbookmark', methods: ['POST'])]
+    public function unbookmark(
+        Document $document,
+        EntityManagerInterface $entityManager,
+        #[CurrentUser(User::class)] User $user,
+    ): RedirectResponse
+    {
+        if ($document->getUsers()->contains($user)) {
+            $document->removeUser($user);
+            $entityManager->flush();
+            $this->addFlash('success', 'Le document a été retiré de vos favoris.');
+        } else {
+            $this->addFlash('warning', 'Ce document n\'est pas dans vos favoris.');
+        }
+
+        return $this->redirectToRoute('app_document_show', ['id' => $document->getId()]);
+    }
+
         $copies = $entityManager->getRepository(Copy::class)->findBy(['document' => $document, 'state' => CopyState::Available]);
         $isBookmarked = $document->getUsers()->contains($user);
 

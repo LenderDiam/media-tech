@@ -25,8 +25,16 @@ final class DocumentController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_document_show', methods: ['GET'])]
-    public function show(Document $document, EntityManagerInterface $entityManager): Response
+    #[Route('/bookmark', name: 'app_bookmark', methods: ['GET', 'POST'])]
+    public function bookmark_list(EntityManagerInterface $entityManager, #[CurrentUser()] User $user): Response
+    {
+        $bookmarks = $entityManager->getRepository(Document::class)->findByUser($user);
+
+        return $this->render('document/bookmark.html.twig', [
+            'bookmarks' => $bookmarks,
+        ]);
+    }
+    
     #[Route('/{id}/bookmark', name: 'app_document_bookmark', methods: ['POST'])]
     public function bookmark(
         Document $document,
@@ -64,6 +72,12 @@ final class DocumentController extends AbstractController
         return $this->redirectToRoute('app_document_show', ['id' => $document->getId()]);
     }
 
+    #[Route('/{id}', name: 'app_document_show', methods: ['GET'])]
+    public function show(
+        Document $document,
+        EntityManagerInterface $entityManager,
+        #[CurrentUser(User::class)] User $user,
+    ): Response {
         $copies = $entityManager->getRepository(Copy::class)->findBy(['document' => $document, 'state' => CopyState::Available]);
         $isBookmarked = $document->getUsers()->contains($user);
 

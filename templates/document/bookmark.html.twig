@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Mes Favoris
+{% endblock %}
+
+{% block body %}
+  <div class="container my-5">
+    <h1 class="mb-4">Mes Favoris</h1>
+
+    {% for label, messages in app.flashes %}
+      <div class="alert alert-{{ label }} text-center">
+        {% for message in messages %}
+          <p class="mb-0">{{ message }}</p>
+        {% endfor %}
+      </div>
+    {% endfor %}
+
+    {% if bookmarks %}
+      <ul class="list-group mb-4">
+        {% for bookmark in bookmarks %}
+          <li class="list-group-item d-flex align-items-center gap-3">
+            <div class="card shadow-sm border-0" style="width: 100px;">
+              <img src="{{ bookmark.thumbnailUrl }}" alt="Image de {{ bookmark.title }}" class="card-img-top rounded" />
+            </div>
+
+            <div class="flex-grow-1">
+              <strong>Document :</strong> {{ bookmark.title }}
+            </div>
+
+            <form class="position-absolute end-0 me-3" method="post" action="{{ path('app_document_unbookmark', { id: bookmark.id })}}">
+              <button type="submit" class="btn p-0 border-0 bg-transparent d-flex align-items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="red" class="bi bi-bookmark-heart-fill" viewBox="0 0 16 16">
+                  <path d="M2 15.5a.5.5 0 0 0 .74.439L8 13.069l5.26 2.87A.5.5 0 0 0 14 15.5V2a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2zM8 4.41c1.387-1.425 4.854 1.07 0 4.277C3.146 5.48 6.613 2.986 8 4.412z" />
+                </svg>
+                <span class="visually-hidden">Retirer des favoris</span>
+              </button>
+            </form>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="text-muted">Vous n'avez encore aucun favori.</p>
+    {% endif %}
+  </div>
+{% endblock %}

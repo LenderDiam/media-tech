@@ -17,7 +17,7 @@
 
   <div class="table-responsive border rounded">
     <table class="table table-striped mb-0 align-middle">
-      <thead class="table-bordered">
+      <thead class="table-bordered text-center">
         <tr>
           <th>Id</th>
           <th>Titre</th>
@@ -27,7 +27,7 @@
           <th>actions</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="text-center">
         {% for periodical in periodicals %}
           <tr>
             <td>{{ periodical.id }}</td>
@@ -36,7 +36,7 @@
             <td>{{ periodical.publicationDate ? periodical.publicationDate|date('Y-m-d') : '' }}</td>
             <td>{{ periodical.frequency.label() }}</td>
             <td>
-              <div class="d-flex align-items-center gap-2">
+              <div class="d-flex align-items-center justify-content-center gap-2">
                 <a href="{{ path('app_admin_document_periodical_show', { id: periodical.id }) }}" class="btn btn-secondary">Afficher</a>
                 <a href="{{ path('app_admin_document_periodical_edit', { id: periodical.id }) }}" class="btn btn-secondary">Modifier</a>
                 {% include 'admin/document/periodical/_delete_form.html.twig' %}

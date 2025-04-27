@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Copy;
 use App\Entity\Loan;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -14,6 +15,18 @@ class LoanRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Loan::class);
+    }
+
+    public function findCurrentLoanForCopy(Copy $copy): ?Loan
+    {
+        return $this->createQueryBuilder('l')
+            ->innerJoin('l.copies', 'c')
+            ->where('c = :copy')
+            ->andWhere('l.backAt IS NULL')
+            ->setParameter('copy', $copy)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
     //    /**

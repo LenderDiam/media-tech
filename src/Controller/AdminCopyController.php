@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Copy;
+use App\Enum\CopyState;
 use App\Form\CopyType;
 use App\Repository\CopyRepository;
+use App\Repository\LoanRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -51,12 +53,28 @@ final class AdminCopyController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_admin_copy_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Copy $copy, EntityManagerInterface $entityManager): Response
+    public function edit(
+        Request $request,
+        Copy $copy, 
+        EntityManagerInterface $entityManager, 
+        LoanRepository $loanRepository,
+    ): Response
     {
         $form = $this->createForm(CopyType::class, $copy);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $currentLoan = $loanRepository->findCurrentLoanForCopy($copy);
+
+            if ($currentLoan) {
+                $newState = $copy->getState();
+                if ($newState === CopyState::Available || $newState === CopyState::Lost) {
+                    $currentLoan->setBackAt(new \DateTimeImmutable());
+                } elseif ($newState === CopyState::Borrowed) {
+                    $currentLoan->setWithdrawalAt(new \DateTimeImmutable());
+                }
+            }
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_admin_copy_index', [], Response::HTTP_SEE_OTHER);

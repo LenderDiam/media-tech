@@ -61,7 +61,7 @@
                 {{ copy.physicalCondition.label() }}
               </span>
             <td>
-              {{ copy.loan is not null ? copy.loan.user.email : 'Aucun' }}
+              {{ copy.getCurrentLoan() is not null ? copy.getCurrentLoan().user.email : 'Aucun' }}
             </td>
             <td>
               <div class="d-flex align-items-center justify-content-center gap-2">

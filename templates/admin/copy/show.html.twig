@@ -53,7 +53,7 @@
         <tr>
             <th>Emprunt actuelle</th>
             <td>
-              {{ copy.loan is not null ? copy.loan.user.email : 'Aucun' }}
+              {{ copy.getCurrentLoan() is not null ? copy.getCurrentLoan().user.email : 'Aucun' }}
             </td>
         </tr>
       </tbody>

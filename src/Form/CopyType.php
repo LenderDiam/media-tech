@@ -72,7 +72,7 @@ class CopyType extends AbstractType
                 'multiple' => true,
                 'required' => false,
             ])
-            ->add('loan', EntityType::class, [
+            ->add('loans', EntityType::class, [
                 'class' => Loan::class,
                 'choice_label' => function (Loan $loan) {
                     return sprintf('Prêt #%d - %s', $loan->getId(), $loan->getUser()->getEmail());

@@ -135,4 +135,15 @@ class Copy
 
         return $this;
     }
+
+    public function getCurrentLoan(): ?Loan
+    {
+        foreach ($this->loans as $loan) {
+            if ($loan->getBackAt() === null) {
+                return $loan;
+            }
+        }
+
+        return null;
+    }
 }

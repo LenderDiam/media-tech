@@ -1,0 +1,48 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title_admin %}
+  Emprunts
+{% endblock %}
+
+{% block admin_content %}
+  <div class="row align-items-end gap-2 mb-3">
+    <div class="col-auto me-auto">
+      <h2 class="h4 mb-0">Liste des emprunts</h2>
+    </div>
+  </div>
+
+  <div class="table-responsive border rounded">
+    <table class="table table-striped mb-0 align-middle">
+      <thead class="table-bordered text-center">
+        <tr class="align-middle">
+          <th>Id</th>
+          <th>Utilisateur</th>
+          <th>Date de début</th>
+          <th>Date de récupération maximale des documents</th>
+          <th>Date de rendu maximale des documents</th>
+          <th>actions</th>
+        </tr>
+      </thead>
+        <tbody class="text-center">
+        {% for loan in loans %}
+            <tr>
+                <td>{{ loan.id }}</td>
+                <td>{{ loan.user.email }}</td>
+                <td>{{ loan.startAt ? loan.startAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ loan.startAt ? (loan.startAt|date_modify('+7 days')|date('Y-m-d H:i:s')) : '' }}</td>
+                <td>{{ loan.startAt ? (loan.startAt|date_modify('+1 month')|date('Y-m-d H:i:s')) : '' }}</td>
+                <td>
+                    <div class="d-flex align-items-center justify-content-center gap-2">
+                        <a href="{{ path('app_admin_loan_show', {'id': loan.id}) }}" class="btn btn-primary">Détails</a>
+                        {% include 'admin/loan/_delete_form.html.twig' %}
+                    </div>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">Aucun emprunt actuellement</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

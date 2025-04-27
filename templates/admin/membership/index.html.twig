@@ -13,7 +13,7 @@
 
   <div class="table-responsive border rounded">
     <table class="table table-striped mb-0 align-middle">
-      <thead class="table-bordered">
+      <thead class="table-bordered text-center">
         <tr>
           <th>Id</th>
           <th>Document</th>
@@ -22,7 +22,7 @@
           <th>actions</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="text-center">
         {% for membership in memberships %}
           <tr>
             <td>{{ membership.id }}</td>
@@ -44,7 +44,7 @@
               </span>
             </td>
             <td>
-              <div class="d-flex align-items-center gap-2">
+              <div class="d-flex align-items-center justify-content-center gap-2">
                 <a href="{{ path('app_admin_membership_show', { id: membership.id }) }}" class="btn btn-primary">Détails</a>
                 <a href="{{ path('app_admin_membership_approve', { id: membership.id, user: membership.user.id }) }}" class="btn btn-success">Approuver</a>
                 <a href="{{ path('app_admin_membership_reject', { id: membership.id, user: membership.user.id }) }}" class="btn btn-warning">Rejeter</a>

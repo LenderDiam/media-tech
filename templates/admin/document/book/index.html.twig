@@ -17,7 +17,7 @@
 
   <div class="table-responsive border rounded">
     <table class="table table-striped mb-0 align-middle">
-      <thead class="table-bordered">
+      <thead class="table-bordered text-center">
         <tr>
           <th>Id</th>
           <th>Titre</th>
@@ -28,7 +28,7 @@
           <th>actions</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="text-center">
         {% for book in books %}
           <tr>
             <td>{{ book.id }}</td>
@@ -38,8 +38,8 @@
             <td>{{ book.isbn }}</td>
             <td>{{ book.pages }}</td>
             <td>
-              <div class="d-flex align-items-center gap-2">
-                <a href="{{ path('app_admin_document_book_show', { id: book.id }) }}" class="btn btn-secondary">Afficher</a>
+              <div class="d-flex align-items-center justify-content-center gap-2">
+                <a href="{{ path('app_admin_document_book_show', { id: book.id }) }}" class="btn btn-secondary">Détails</a>
                 <a href="{{ path('app_admin_document_book_edit', { id: book.id }) }}" class="btn btn-secondary">Modifier</a>
                 {% include 'admin/document/book/_delete_form.html.twig' %}
               </div>

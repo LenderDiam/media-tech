@@ -1,0 +1,55 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title_admin %}
+  Emprunt
+{% endblock %}
+
+{% block admin_content %}
+  <h1 class="mb-3">Emprunt n°{{ loan.id }} de {{ loan.user.email }}</h1>
+
+  <div class="table-responsive border rounded">
+    <table class="table table-striped mb-0 align-middle">
+      <tbody class="text-center">
+        <tr>
+          <th>Date de début</th>
+          <td>{{ loan.startAt ? loan.startAt|date('Y-m-d H:i:s') : '' }}</td>
+        </tr>
+        <tr>
+          <th>Date de récupération maximale des documents</th>
+          <td>{{ loan.startAt ? loan.startAt|date_modify('+7 days')|date('Y-m-d H:i:s') : '' }}</td>
+        </tr>
+        <tr>
+          <th>Date de récupération des documents</th>
+          <td>{{ loan.withdrawalAt ? loan.startAt|date_modify('+7 days')|date('Y-m-d H:i:s') : 'Aucune' }}</td>
+        </tr>
+        <tr>
+          <th>Date de rendu maximale des documents</th>
+          <td>{{ loan.startAt ? loan.startAt|date_modify('+1 month')|date('Y-m-d H:i:s') : '' }}</td>
+        </tr>
+        <tr>
+          <th>Date de rendu des documents</th>
+          <td>{{ loan.backAt ? loan.startAt|date_modify('+1 month')|date('Y-m-d H:i:s') : 'Aucune' }}</td>
+        </tr>
+        <tr>
+          <th>Liste des exemplaires</th>
+          <td>
+            <ul class="list-unstyled mb-0">
+              {% for copy in loan.copies %}
+                <li>
+                  {% set documentType = copy.document.getType() %}
+
+                  <a href="{{ path('app_admin_copy_edit', { id: copy.id }) }}" class="link link-secondary">{{ copy.document.title }}</a>
+                </li>
+              {% endfor %}
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="mt-3 d-flex gap-2">
+    <a href="{{ path('app_admin_loan_index') }}" class="btn btn-secondary">Retour à la liste</a>
+
+    {% include 'admin/loan/_delete_form.html.twig' %}
+  </div>
+{% endblock %}

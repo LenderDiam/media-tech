@@ -17,7 +17,7 @@
 
   <div class="table-responsive border rounded">
     <table class="table table-striped mb-0 align-middle">
-      <thead class="table-bordered">
+      <thead class="table-bordered text-center">
         <tr>
           <th>Id</th>
           <th>Prénom</th>
@@ -26,7 +26,7 @@
           <th>actions</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="text-center">
         {% for publisher in publishers %}
           <tr>
             <td>{{ publisher.id }}</td>
@@ -34,8 +34,8 @@
             <td>{{ publisher.lastname }}</td>
             <td>{{ publisher.name }}</td>
             <td>
-              <div class="d-flex align-items-center gap-2">
-                <a href="{{ path('app_admin_publisher_show', { id: publisher.id }) }}" class="btn btn-secondary">Afficher</a>
+              <div class="d-flex align-items-center justify-content-center gap-2">
+                <a href="{{ path('app_admin_publisher_show', { id: publisher.id }) }}" class="btn btn-secondary">Détails</a>
                 <a href="{{ path('app_admin_publisher_edit', { id: publisher.id }) }}" class="btn btn-secondary">Modifier</a>
                 {% include 'admin/publisher/_delete_form.html.twig' %}
               </div>

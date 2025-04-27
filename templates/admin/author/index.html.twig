@@ -33,7 +33,7 @@
             <td>{{ author.lastname }}</td>
             <td>
               <div class="d-flex align-items-center justify-content-center gap-2">
-                <a href="{{ path('app_admin_author_show', { id: author.id }) }}" class="btn btn-secondary">Afficher</a>
+                <a href="{{ path('app_admin_author_show', { id: author.id }) }}" class="btn btn-secondary">Détails</a>
                 <a href="{{ path('app_admin_author_edit', { id: author.id }) }}" class="btn btn-secondary">Modifier</a>
                 {% include 'admin/author/_delete_form.html.twig' %}
               </div>

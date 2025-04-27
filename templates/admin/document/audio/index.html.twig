@@ -39,7 +39,7 @@
             <td>{{ audio.format.label() }}</td>
             <td>
               <div class="d-flex align-items-center justify-content-center gap-2">
-                <a href="{{ path('app_admin_document_audio_show', { id: audio.id }) }}" class="btn btn-secondary">Afficher</a>
+                <a href="{{ path('app_admin_document_audio_show', { id: audio.id }) }}" class="btn btn-secondary">Détails</a>
                 <a href="{{ path('app_admin_document_audio_edit', { id: audio.id }) }}" class="btn btn-secondary">Modifier</a>
                 {% include 'admin/document/audio/_delete_form.html.twig' %}
               </div>

@@ -49,7 +49,7 @@ final class SubscriptionController extends AbstractController
     }
 
     #[Route('/{id}/payement', name: 'app_subscription_payement', methods: ['POST'])]
-    public function candidacy(
+    public function payement(
         EntityManagerInterface $entityManager,
         #[CurrentUser()] User $currentUser,
         Subscription $subscription,

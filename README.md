@@ -90,7 +90,23 @@ This should fix the issue.
 
 If you encounter other bugs, check if the problematic file is the same as the one on GitHub.
 
+## Tests
+
+
+Run all the tests :
+
+```bash
+php bin/phpunit
+```
+
+Run one test : 
+
+```bash
+php bin/phpunit tests/filePath.php
+```
+
 ## Notes
 
 - Ensure that your environment meets the requirements listed above before proceeding.
 - Use the provided `make` commands for convenience, or the equivalent `docker-compose` commands if not using `make`.
+

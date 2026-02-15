@@ -2,6 +2,71 @@
 
 The purpose of this project is to provide a management tool for a library. This project uses Apache, MySQL, and PHP.
 
+## Project Structure
+
+The project is organized into the following categories:
+
+### Backend (Symfony/PHP)
+
+| Category | Directory | Description |
+|----------|-----------|-------------|
+| **Controllers** | `src/Controller/` | Handle HTTP requests and responses |
+| **Entities** | `src/Entity/` | Database models (User, Book, Audio, Video, etc.) |
+| **Forms** | `src/Form/` | Form type definitions for data input |
+| **Repositories** | `src/Repository/` | Database query logic |
+| **Services** | `src/Service/` | Business logic and reusable services |
+| **Data Fixtures** | `src/DataFixtures/` | Sample data for development |
+| **Enumerations** | `src/Enum/` | Enumeration types |
+
+### Frontend (Assets)
+
+| Category | Directory | Description |
+|----------|-----------|-------------|
+| **JavaScript** | `assets/app.js` | Main JavaScript entry point |
+| **Stimulus Controllers** | `assets/controllers/` | JavaScript controllers for interactive features |
+| **Styles** | `assets/styles/` | CSS stylesheets |
+| **Images** | `assets/images/` | Image assets |
+
+### Templates (Twig)
+
+| Category | Directory | Description |
+|----------|-----------|-------------|
+| **Admin** | `templates/admin/` | Admin interface templates |
+| **User Interface** | `templates/home/`, `templates/basket/`, etc. | Public-facing pages |
+| **Components** | `templates/components/` | Reusable UI components |
+| **Security** | `templates/security/` | Login and authentication pages |
+
+### Database
+
+| Category | Directory | Description |
+|----------|-----------|-------------|
+| **Migrations** | `migrations/` | Database schema version control |
+| **Entities** | `src/Entity/` | ORM entity definitions |
+
+### Configuration
+
+| Category | File/Directory | Description |
+|----------|----------------|-------------|
+| **Services** | `config/services.yaml` | Service container configuration |
+| **Routes** | `config/routes.yaml`, `config/routes/` | Application routing |
+| **Packages** | `config/packages/` | Bundle-specific configuration |
+| **Environment** | `.env`, `.env.dev`, `.env.test` | Environment variables |
+
+### Testing
+
+| Category | Directory | Description |
+|----------|-----------|-------------|
+| **Tests** | `tests/` | PHPUnit test files |
+| **Configuration** | `phpunit.xml.dist` | PHPUnit configuration |
+
+### Docker & Deployment
+
+| Category | File/Directory | Description |
+|----------|----------------|-------------|
+| **Docker** | `Dockerfile`, `compose.yaml` | Container configuration |
+| **Scripts** | `init-symfony.sh` | Initialization scripts |
+| **Makefile** | `Makefile` | Common development commands |
+
 ## Requirements
 
 - [Docker](https://www.docker.com/)
